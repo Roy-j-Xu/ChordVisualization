@@ -11,12 +11,14 @@ public class Tonnetze{
 	private int noteRange = 88;
 	private Button[] noteList;
 	private int[] noteX, noteY;
+	private boolean[] keyPressed;
 	private int netX = 60;
 	private int netY = 60;
 	
 
 	public Tonnetze() {
-		noteList = new Button[88];
+		noteList = new Button[noteRange];
+		keyPressed = new boolean[noteRange];
 		noteX = new int[noteRange];
 		noteY = new int[noteRange];
 		layoutNet();
@@ -44,7 +46,7 @@ public class Tonnetze{
 	
 	private void generateButtons() {
 		for (int note = 0; note < noteRange; note++) {
-			noteList[note] = new Button(netX + noteX[note], netY + noteY[note], MusicUtil.pitchClass(note));
+			noteList[note] = new Button(netX + noteX[note], netY + noteY[note], ""+note);
 		}
 	}
 	
@@ -82,9 +84,14 @@ public class Tonnetze{
 	}
 	
 	public void press(int X, int Y) {
-		for (Button b : noteList) {
-			b.press(X, Y);
+		for (int note = 0; note + 3 < noteRange; note++) {
+			noteList[note].press(X, Y);
+			keyPressed[note] = noteList[note].isPressed();
 		}
+	}
+	
+	public String pressedKeys() {
+		return MusicUtil.chordString(keyPressed);
 	}
 
 }

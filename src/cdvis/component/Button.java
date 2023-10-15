@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 
+import org.jfugue.player.Player;
+
 import cdvis.app.Config;
 import cdvis.util.PlotUtil;
 
@@ -36,6 +38,10 @@ public class Button {
 		if( (x-X)*(x-X) + (y-Y)*(y-Y) < Config.BUTTON_SIZE * Config.BUTTON_SIZE ) {
 			this.pressed = ! this.pressed;
 		}
+	}
+	
+	public boolean isPressed() {
+		return this.pressed;
 	}
 	
 	public void setXY(int X, int Y) {

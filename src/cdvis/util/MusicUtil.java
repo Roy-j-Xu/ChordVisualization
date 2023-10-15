@@ -22,5 +22,33 @@ public class MusicUtil {
 		}
 		return "";
 	}
+	
+	public static String pitchName(int n) {
+		String pitchClass = pitchClass(n);
+		int register = n/12;
+		if (pitchClass != "A" && pitchClass != "Bb" && pitchClass != "B") {
+			register++;
+		}
+		StringBuilder sb = new StringBuilder();
+		sb.append(pitchClass).append(register).append("wh");
+		return sb.toString();
+	}
+	
+	public static String chordString(boolean[] n) {
+		StringBuilder sb = new StringBuilder();
+		
+		int count = 0;
+		for (boolean i:n) {
+			if (i) sb.append(pitchName(count)).append("+");
+			count++;
+		}
+		
+		if (sb.length() > 0) {
+			sb.deleteCharAt(sb.length()-1);
+		}
+		
+		
+		return sb.toString();
+	}
 
 }
