@@ -5,23 +5,22 @@ import org.jfugue.player.*;
 
 public class NotePlayer implements Runnable{
 	private Player player;
-	private String notes = "";
 	private Pattern pattern;
 	private Thread playerThread;
 
 	public NotePlayer() {
 		player = new Player();
 		pattern = new Pattern();
-		pattern.setInstrument("Violin");
+		pattern.setTempo(200);
+//		pattern.setInstrument("Violin");
 		
 		playerThread = new Thread(this);
 		playerThread.start();
 	}
 	
 	public void setNotes(String newNotes) {
-		notes = newNotes;
 		pattern.clear();
-		pattern.add(notes);
+		pattern.add(newNotes);
 		
 	}
 

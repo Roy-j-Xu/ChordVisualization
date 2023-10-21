@@ -5,21 +5,23 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
-import cdvis.component.Button;
-import cdvis.component.Tonnetze;
-import cdvis.listener.TonnetzeController;
+import cdvis.component.Tonnetz;
+import cdvis.listener.TonnetzController;
 
 
 
 public class AppPanel extends JPanel{
 	
-	private Tonnetze net;
+	private Tonnetz net;
 
 	public AppPanel() {
-		net = new Tonnetze();
+		net = new Tonnetz();
 		this.setPreferredSize(new Dimension(Config.SCREEN_HEIGHT,Config.SCREEN_WIDTH));
 		
-		this.addMouseListener(new TonnetzeController(net));
+		TonnetzController TController = new TonnetzController(net);
+		this.addMouseListener(TController);
+		this.addKeyListener(TController);
+		this.addMouseMotionListener(TController);
 	}
 	
 	public void paintComponent(Graphics g) {

@@ -35,7 +35,7 @@ public class AppFrame extends JFrame implements Runnable{
 		long currentTime = 0;
 		while(true) {
 			currentTime = System.currentTimeMillis();
-			if (currentTime - lastFrame >= 10) {
+			if (currentTime - lastFrame >= 12) {
 				panel.repaint();
 				lastFrame = currentTime;
 			}
