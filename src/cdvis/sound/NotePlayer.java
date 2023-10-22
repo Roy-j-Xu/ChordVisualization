@@ -1,14 +1,21 @@
 package cdvis.sound;
 
+import java.util.Set;
+
 import org.jfugue.pattern.Pattern;
 import org.jfugue.player.*;
 
+import cdvis.util.MusicUtil;
+
+
 public class NotePlayer implements Runnable{
+	private Set<Integer> pressedKey;
 	private Player player;
 	private Pattern pattern;
 	private Thread playerThread;
 
-	public NotePlayer() {
+	public NotePlayer(Set<Integer> n) {
+		pressedKey = n;
 		player = new Player();
 		pattern = new Pattern();
 		pattern.setTempo(200);
@@ -18,9 +25,9 @@ public class NotePlayer implements Runnable{
 		playerThread.start();
 	}
 	
-	public void setNotes(String newNotes) {
+	public void setNotes() {
 		pattern.clear();
-		pattern.add(newNotes);
+		pattern.add(MusicUtil.chordString(pressedKey));
 		
 	}
 

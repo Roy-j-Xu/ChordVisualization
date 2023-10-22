@@ -28,9 +28,10 @@ public class AppFrame extends JFrame implements Runnable{
 		this.setTitle("Chord Visualization");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		this.player = new NotePlayer(); 
 		this.aPanel = new AppPanel();
 		this.cPanel = new ControlPanel();
+		this.player = new NotePlayer(aPanel.getTonnetz().getPressedKey()); 
+		
 		this.add(aPanel, BorderLayout.EAST);
 		this.add(cPanel, BorderLayout.WEST);
 		this.pack();

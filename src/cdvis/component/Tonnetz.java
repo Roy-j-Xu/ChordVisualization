@@ -4,6 +4,8 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.util.HashSet;
+import java.util.Set;
 
 import cdvis.app.Config;
 import cdvis.util.MusicUtil;
@@ -13,12 +15,12 @@ public class Tonnetz extends Graph{
 	private int noteRange = 88;
 	private int[] relNoteX, relNoteY;
 	private int[] noteX, noteY;
-	private boolean[] keyPressed;
+	private Set<Integer> pressedKey;
 	private int netX = 60, netY = 60;
 	
 
 	public Tonnetz() {
-		keyPressed = new boolean[noteRange];
+		pressedKey = new HashSet<>();
 		noteX = new int[noteRange];
 		relNoteX = new int[noteRange];
 		noteY = new int[noteRange];
@@ -78,7 +80,7 @@ public class Tonnetz extends Graph{
     	Color pressedColor = Color.gray;
     	for (int i = 0; i < noteRange; i++) {
     		for (int j : this.getNeighbors(i)) {
-        		if (keyPressed[i] && keyPressed[j]) {
+        		if (pressedKey.contains(i) && pressedKey.contains(j)) {
         			g2d.setPaint(pressedColor);
         		} else {
         			g2d.setPaint(unpressedColor);
@@ -89,16 +91,18 @@ public class Tonnetz extends Graph{
 
     	unpressedColor = new Color(100,200,100);
     	pressedColor = new Color(80,150,80);
-    	
+    	g2d.setPaint(unpressedColor);
     	for (int i = 0; i < noteRange; i++) {
-    		if (keyPressed[i]) {
-    			g2d.setPaint(pressedColor);
-    		} else {
-    			g2d.setPaint(unpressedColor);
+    		if (!pressedKey.contains(i)) {
+    			g2d.fillOval(noteX[i] - buttonSize/2, noteY[i] - buttonSize/2, buttonSize, buttonSize);
     		}
-    		g2d.fillOval(noteX[i] - buttonSize/2, noteY[i] - buttonSize/2, buttonSize, buttonSize);
-    		g2d.setFont(new Font("Arial", Font.BOLD, buttonSize/5 * 3));
     	}
+    	g2d.setPaint(pressedColor);
+    	for (int i : pressedKey) {
+    		g2d.fillOval(noteX[i] - buttonSize/2, noteY[i] - buttonSize/2, buttonSize, buttonSize);
+    	}
+    	
+    	g2d.setFont(new Font("Arial", Font.BOLD, buttonSize/5 * 3));
     	g2d.setColor(new Color(0, 130, 0));
     	for (int i = 0; i < noteRange; i++) {
     		PlotUtil.drawCenteredText(g2d, noteX[i], noteY[i], MusicUtil.pitchClass(i));
@@ -110,7 +114,9 @@ public class Tonnetz extends Graph{
     	int buttonSize = Config.BUTTON_SIZE;
     	for (int i = 0; i < noteRange; i++) {
     		if (Math.abs(x-noteX[i]) < buttonSize/2 && Math.abs(y-noteY[i]) < buttonSize/2) {
-    			keyPressed[i] = !keyPressed[i];
+//    			keyPressed[i] = !keyPressed[i];
+    			if (pressedKey.contains(i)) pressedKey.remove(i);
+    			else pressedKey.add(i);
     			return;
     		}
     	}
@@ -118,15 +124,15 @@ public class Tonnetz extends Graph{
     
     public void moveNotes() {
     	for (int i = 0; i < noteRange; i++) {
-    		if (keyPressed[(i+7) % noteRange]) {
-    			keyPressed[(i+7) % noteRange] = false;
-    			keyPressed[i] = true;
+    		if (pressedKey.contains((i+7) % noteRange)) {
+    			pressedKey.remove((i+7) % noteRange);
+    			pressedKey.add(i);
     		}
     	}
     }
 	
-	public String pressedKeys() {
-		return MusicUtil.chordString(keyPressed);
+	public Set<Integer> getPressedKey() {
+		return pressedKey;
 	}
 	
 	public void moveNet(int x, int y) {

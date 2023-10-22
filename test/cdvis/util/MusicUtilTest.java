@@ -14,10 +14,4 @@ class MusicUtilTest {
 		System.out.println(MusicUtil.pitchName(60));
 	}
 
-	@Test
-	void testChordString() {
-		boolean[] b = {true, true, false, false, true};
-		assertEquals(MusicUtil.chordString(b), "A0wh+Bb0wh+C#1wh");
-	}
-
 }

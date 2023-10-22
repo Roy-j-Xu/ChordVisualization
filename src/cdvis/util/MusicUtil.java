@@ -1,5 +1,7 @@
 package cdvis.util;
 
+import java.util.Set;
+
 public class MusicUtil {
 
 	private MusicUtil() {
@@ -34,19 +36,16 @@ public class MusicUtil {
 		return sb.toString();
 	}
 	
-	public static String chordString(boolean[] n) {
+	public static String chordString(Set<Integer> n) {
 		StringBuilder sb = new StringBuilder();
 		
-		int count = 0;
-		for (boolean i:n) {
-			if (i) sb.append(pitchName(count)).append("+");
-			count++;
+		for (int i:n) {
+			sb.append(pitchName(i)).append("+");
 		}
 		
 		if (sb.length() > 0) {
 			sb.deleteCharAt(sb.length()-1);
 		}
-		
 		
 		return sb.toString();
 	}

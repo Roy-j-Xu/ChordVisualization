@@ -24,7 +24,7 @@ public class TonnetzController implements MouseListener, MouseMotionListener{
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		tonnetz.press(e.getX(), e.getY());
-		player.setNotes(tonnetz.pressedKeys());
+		player.setNotes();
 		
 	}
 
