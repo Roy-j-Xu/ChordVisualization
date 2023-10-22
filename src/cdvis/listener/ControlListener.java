@@ -3,6 +3,8 @@ package cdvis.listener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
+
 import cdvis.app.ControlPanel;
 import cdvis.component.Tonnetz;
 import cdvis.sound.NotePlayer;
@@ -18,12 +20,16 @@ public class ControlListener implements ActionListener {
 		this.cPanel = c;
 		this.player = p;
 		
-		cPanel.getMoveButton().addActionListener(this);
+		for (JButton b :cPanel.getButtons()) {
+			b.addActionListener(this);
+		}
+		
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		net.moveNotes();
+		net.moveNotes( Integer.parseInt(e.getActionCommand()) );
+		player.setNotes();
 	}
 
 }

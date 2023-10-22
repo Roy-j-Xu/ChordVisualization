@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 
 import cdvis.app.Config;
@@ -12,11 +13,11 @@ import cdvis.util.MusicUtil;
 import cdvis.util.PlotUtil;
 
 public class Tonnetz extends Graph{
-	private int noteRange = 88;
+	private int noteRange = 7*11;
 	private int[] relNoteX, relNoteY;
 	private int[] noteX, noteY;
 	private Set<Integer> pressedKey;
-	private int netX = 60, netY = 60;
+	private int netX = -100, netY = 60;
 	
 
 	public Tonnetz() {
@@ -114,7 +115,6 @@ public class Tonnetz extends Graph{
     	int buttonSize = Config.BUTTON_SIZE;
     	for (int i = 0; i < noteRange; i++) {
     		if (Math.abs(x-noteX[i]) < buttonSize/2 && Math.abs(y-noteY[i]) < buttonSize/2) {
-//    			keyPressed[i] = !keyPressed[i];
     			if (pressedKey.contains(i)) pressedKey.remove(i);
     			else pressedKey.add(i);
     			return;
@@ -122,12 +122,14 @@ public class Tonnetz extends Graph{
     	}
     }
     
-    public void moveNotes() {
-    	for (int i = 0; i < noteRange; i++) {
-    		if (pressedKey.contains((i+7) % noteRange)) {
-    			pressedKey.remove((i+7) % noteRange);
-    			pressedKey.add(i);
-    		}
+    public void moveNotes(int halfSteps) {
+    	LinkedList<Integer> newKey = new LinkedList<>();
+    	for (int i : pressedKey) {
+    		newKey.add((i+halfSteps+noteRange) % noteRange);
+    	}
+    	pressedKey.clear();
+    	for (int i : newKey) {
+    		pressedKey.add(i);
     	}
     }
 	

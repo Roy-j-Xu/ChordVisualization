@@ -27,7 +27,7 @@ public class MusicUtil {
 	
 	public static String pitchName(int n) {
 		String pitchClass = pitchClass(n);
-		int register = n/12;
+		int register = n/12 + 1;
 		if (pitchClass != "A" && pitchClass != "Bb" && pitchClass != "B") {
 			register++;
 		}
