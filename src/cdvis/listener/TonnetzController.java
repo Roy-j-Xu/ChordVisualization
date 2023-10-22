@@ -10,15 +10,15 @@ import java.awt.event.MouseMotionListener;
 import cdvis.component.Tonnetz;
 import cdvis.sound.NotePlayer;
 
-public class TonnetzController implements MouseListener, MouseMotionListener ,KeyListener{
+public class TonnetzController implements MouseListener, MouseMotionListener{
 	private final Tonnetz tonnetz;
 	private final NotePlayer player;
 	private Point dragStart;
 	private int lastNetX, lastNetY;
 	
-	public TonnetzController(Tonnetz tonnetz) {
+	public TonnetzController(Tonnetz tonnetz, NotePlayer player) {
 		this.tonnetz = tonnetz;
-		this.player = new NotePlayer();
+		this.player = player;
 	}
 
 	@Override
@@ -61,28 +61,5 @@ public class TonnetzController implements MouseListener, MouseMotionListener ,Ke
 	public void mouseMoved(MouseEvent e) {
 		
 	}
-	
-	
-
-	
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
 
 }

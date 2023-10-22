@@ -37,7 +37,7 @@ public class Tonnetz extends Graph{
 			}
 		}
 
-		int gap = Config.BUTTON_SIZE * 2;
+		int gap = Config.BUTTON_SIZE * 11 / 5;
 		
 		for (int note = 0; note < noteRange; note++) {
 			relNoteX[note] = relNoteX[note] * (gap/2);
@@ -68,22 +68,27 @@ public class Tonnetz extends Graph{
     public void plot(Graphics2D g2d) {
     	int buttonSize = Config.BUTTON_SIZE;
     	
-    	g2d.setStroke(new BasicStroke(buttonSize/7));
-    	g2d.setPaint(Color.gray);
-    	
     	for (int i = 0; i < noteRange; i++) {
     		noteX[i] = netX + relNoteX[i];
     		noteY[i] = netY + relNoteY[i];
     	}
     	
+    	g2d.setStroke(new BasicStroke(buttonSize/7));
+    	Color unpressedColor = new Color(190,190,190);
+    	Color pressedColor = Color.gray;
     	for (int i = 0; i < noteRange; i++) {
     		for (int j : this.getNeighbors(i)) {
+        		if (keyPressed[i] && keyPressed[j]) {
+        			g2d.setPaint(pressedColor);
+        		} else {
+        			g2d.setPaint(unpressedColor);
+        		}
     			g2d.drawLine(noteX[i], noteY[i], noteX[j], noteY[j]);
     		}
     	}
 
-    	Color unpressedColor = new Color(100,200,100);
-    	Color pressedColor = new Color(80,150,80);
+    	unpressedColor = new Color(100,200,100);
+    	pressedColor = new Color(80,150,80);
     	
     	for (int i = 0; i < noteRange; i++) {
     		if (keyPressed[i]) {
@@ -100,6 +105,29 @@ public class Tonnetz extends Graph{
     	}
     	
     }
+    
+    public void press(int x, int y) {
+    	int buttonSize = Config.BUTTON_SIZE;
+    	for (int i = 0; i < noteRange; i++) {
+    		if (Math.abs(x-noteX[i]) < buttonSize/2 && Math.abs(y-noteY[i]) < buttonSize/2) {
+    			keyPressed[i] = !keyPressed[i];
+    			return;
+    		}
+    	}
+    }
+    
+    public void moveNotes() {
+    	for (int i = 0; i < noteRange; i++) {
+    		if (keyPressed[(i+7) % noteRange]) {
+    			keyPressed[(i+7) % noteRange] = false;
+    			keyPressed[i] = true;
+    		}
+    	}
+    }
+	
+	public String pressedKeys() {
+		return MusicUtil.chordString(keyPressed);
+	}
 	
 	public void moveNet(int x, int y) {
 		netX = x;
@@ -112,19 +140,6 @@ public class Tonnetz extends Graph{
 	
 	public int getNetY() {
 		return netY;
-	}
-    
-    public void press(int x, int y) {
-    	int buttonSize = Config.BUTTON_SIZE;
-    	for (int i = 0; i < noteRange; i++) {
-    		if (Math.abs(x-noteX[i]) < buttonSize && Math.abs(y-noteY[i]) < buttonSize) {
-    			keyPressed[i] = !keyPressed[i];
-    		}
-    	}
-    }
-	
-	public String pressedKeys() {
-		return MusicUtil.chordString(keyPressed);
 	}
 
 }

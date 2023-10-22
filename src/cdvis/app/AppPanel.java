@@ -12,16 +12,12 @@ import cdvis.listener.TonnetzController;
 
 public class AppPanel extends JPanel{
 	
-	private Tonnetz net;
+	private final Tonnetz net;
 
 	public AppPanel() {
 		net = new Tonnetz();
-		this.setPreferredSize(new Dimension(Config.SCREEN_HEIGHT,Config.SCREEN_WIDTH));
-		
-		TonnetzController TController = new TonnetzController(net);
-		this.addMouseListener(TController);
-		this.addKeyListener(TController);
-		this.addMouseMotionListener(TController);
+		this.setPreferredSize(new Dimension(Config.SCREEN_WIDTH*3/4, Config.SCREEN_HEIGHT));
+
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -30,6 +26,10 @@ public class AppPanel extends JPanel{
 		Graphics2D g2d = (Graphics2D) g;
 		
 		net.plot(g2d);
+	}
+	
+	public Tonnetz getTonnetz() {
+		return net;
 	}
 
 }
