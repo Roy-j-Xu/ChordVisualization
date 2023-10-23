@@ -19,7 +19,6 @@ public class NotePlayer implements Runnable{
 		player = new Player();
 		pattern = new Pattern();
 		pattern.setTempo(200);
-//		pattern.setInstrument("Violin");
 		
 		playerThread = new Thread(this);
 		playerThread.start();

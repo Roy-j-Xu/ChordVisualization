@@ -2,6 +2,8 @@ package cdvis.util;
 
 import java.util.Set;
 
+import cdvis.app.Config;
+
 public class MusicUtil {
 
 	private MusicUtil() {
@@ -48,6 +50,18 @@ public class MusicUtil {
 		}
 		
 		return sb.toString();
+	}
+	
+	
+	public static int tonnetzPathRotation(int[] coef, int direction) {
+		int result;
+		if (direction == -1) {
+			result = - 4 * coef[0] + 7 * coef[1] + 3 * coef[2];
+		} else {
+			result = 7 * coef[0] - 3 * coef[1] + 4 * coef[2];
+		}
+		return result;
+		
 	}
 
 }

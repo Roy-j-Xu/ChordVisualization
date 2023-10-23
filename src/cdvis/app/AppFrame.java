@@ -4,70 +4,48 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 
-import cdvis.listener.ControlListener;
-import cdvis.listener.TonnetzController;
-import cdvis.sound.NotePlayer;
-
-public class AppFrame extends JFrame implements Runnable{
+public class AppFrame extends JFrame {
 	
 	private AppPanel aPanel;
 	private ControlPanel cPanel;
-	private NotePlayer player;
 	
-	
-	private Thread panelThread;
-	
-	public AppFrame() {
-		setUp();
-		addListeners();
-		startPanelLoop();
+	public AppFrame(AppPanel a, ControlPanel c) {
+		setUp(a, c);
 	}
 	
 	
-	public void setUp() {
-		this.setTitle("Chord Visualization");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public void setUp(AppPanel a, ControlPanel c) {
+		setTitle("Chord Visualization");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
 		
-		this.aPanel = new AppPanel();
-		this.cPanel = new ControlPanel();
-		this.player = new NotePlayer(aPanel.getTonnetz().getPressedKey()); 
+		aPanel = a;
+		cPanel = c;
 		
-		this.add(aPanel, BorderLayout.EAST);
-		this.add(cPanel, BorderLayout.WEST);
-		this.pack();
-		this.setVisible(true);
+		add(aPanel, BorderLayout.EAST);
+		add(cPanel, BorderLayout.WEST);
+		pack();
+		setVisible(true);
 		
 		try {
-			this.setLocationRelativeTo(null);
+			setLocationRelativeTo(null);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
 	
-	public void addListeners() {
-		TonnetzController TController = new TonnetzController(aPanel.getTonnetz(), player);
-		this.aPanel.addMouseListener(TController);
-		this.aPanel.addMouseMotionListener(TController);
-		new ControlListener(aPanel.getTonnetz(), cPanel , player);
-	}
-	
-	public void startPanelLoop() {
-		panelThread = new Thread(this);
-		panelThread.start();
-	}
-	
-	@Override
-	public void run() {
-		long lastFrame = 0;
-		long currentTime = 0;
-		while(true) {
-			currentTime = System.currentTimeMillis();
-			if (currentTime - lastFrame >= 12) {
-				aPanel.repaint();
-				lastFrame = currentTime;
-			}
-		}
-	}
+//	@Override
+//	public void run() {
+//		long lastFrame = 0;
+//		long currentTime = 0;
+//		while(true) {
+//			currentTime = System.currentTimeMillis();
+//			if (currentTime - lastFrame >= 15) {
+//				aPanel.repaint();
+//				lastFrame = currentTime;
+//			}
+//		}
+//	}
 
 }

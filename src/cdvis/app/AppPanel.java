@@ -14,22 +14,15 @@ public class AppPanel extends JPanel{
 	
 	private final Tonnetz net;
 
-	public AppPanel() {
-		net = new Tonnetz();
+	public AppPanel(Tonnetz n) {
+		net = n;
 		this.setPreferredSize(new Dimension(Config.SCREEN_WIDTH*3/4, Config.SCREEN_HEIGHT));
-
 	}
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
 		Graphics2D g2d = (Graphics2D) g;
-		
 		net.plot(g2d);
-	}
-	
-	public Tonnetz getTonnetz() {
-		return net;
 	}
 
 }

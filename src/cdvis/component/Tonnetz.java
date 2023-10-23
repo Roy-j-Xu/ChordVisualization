@@ -13,11 +13,13 @@ import cdvis.util.MusicUtil;
 import cdvis.util.PlotUtil;
 
 public class Tonnetz extends Graph{
-	private int noteRange = 7*11;
-	private int[] relNoteX, relNoteY;
+	private int noteRange = Config.tonnetzNoteRange;
+	private final int[] relNoteX, relNoteY;
 	private int[] noteX, noteY;
 	private Set<Integer> pressedKey;
 	private int netX = -100, netY = 60;
+	
+	private int rotationCenter = 42;
 	
 
 	public Tonnetz() {
@@ -26,13 +28,15 @@ public class Tonnetz extends Graph{
 		relNoteX = new int[noteRange];
 		noteY = new int[noteRange];
 		relNoteY = new int[noteRange];
+		
 		generateButtons();
 		layoutNet();
 	}
 	
 	private void layoutNet() {
+		
 		for (int note = 0; note < noteRange; note++) {
-			relNoteY[note] = (3 + 2 * (note % 7)) % 7;
+			relNoteY[note] = 6 - (3 + 2 * (note % 7)) % 7;
 			if (note % 7 == 6 || note % 7 == 0 || note % 7 == 1) {
 				relNoteX[note] = ((note + 1)/7) * 2;
 			} else {
@@ -77,8 +81,8 @@ public class Tonnetz extends Graph{
     	}
     	
     	g2d.setStroke(new BasicStroke(buttonSize/7));
-    	Color unpressedColor = new Color(190,190,190);
-    	Color pressedColor = Color.gray;
+    	Color unpressedColor = new Color(195,195,195);
+    	Color pressedColor = new Color(80,180,80);
     	for (int i = 0; i < noteRange; i++) {
     		for (int j : this.getNeighbors(i)) {
         		if (pressedKey.contains(i) && pressedKey.contains(j)) {
@@ -89,7 +93,13 @@ public class Tonnetz extends Graph{
     			g2d.drawLine(noteX[i], noteY[i], noteX[j], noteY[j]);
     		}
     	}
-
+    	
+    	if (rotationCenter > -1) {
+    		g2d.setPaint(pressedColor);
+        	int centerSize = buttonSize * 5/4;
+        	g2d.fillOval(noteX[rotationCenter] - centerSize/2, noteY[rotationCenter] - centerSize/2, centerSize, centerSize);
+    	}
+    	
     	unpressedColor = new Color(100,200,100);
     	pressedColor = new Color(80,150,80);
     	g2d.setPaint(unpressedColor);
@@ -131,6 +141,30 @@ public class Tonnetz extends Graph{
     	for (int i : newKey) {
     		pressedKey.add(i);
     	}
+    	if (rotationCenter > -1) {
+        	rotationCenter += halfSteps + noteRange;
+        	rotationCenter %= noteRange;    		
+    	}
+
+    }
+    
+    
+    public void rotateNotes(int direction) {
+    	if (rotationCenter == -1) return;
+    	
+    	LinkedList<Integer> newKey = new LinkedList<>();
+    	int note;
+    	int[] coef;
+    	for (int i : pressedKey) {
+    		coef = algebraicBFS(rotationCenter, i);
+    		note = rotationCenter + MusicUtil.tonnetzPathRotation(coef, direction) + noteRange;
+    		note %= noteRange;
+    		newKey.add(note);
+    	}
+    	pressedKey.clear();
+    	for (int i : newKey) {
+    		pressedKey.add(i);
+    	}
     }
 	
 	public Set<Integer> getPressedKey() {
@@ -140,6 +174,21 @@ public class Tonnetz extends Graph{
 	public void moveNet(int x, int y) {
 		netX = x;
 		netY = y;
+	}
+	
+	public void clearNote() {
+		pressedKey.clear();
+	}
+	
+	public void setRotationCenter(int x, int y) {
+    	int buttonSize = Config.BUTTON_SIZE;
+    	for (int i = 0; i < noteRange; i++) {
+    		if (Math.abs(x-noteX[i]) < buttonSize/2 && Math.abs(y-noteY[i]) < buttonSize/2) {
+    			if (rotationCenter == i) rotationCenter = -1;
+    			else rotationCenter = i;
+    			return;
+    		}
+    	}
 	}
 	
 	public int getNetX() {

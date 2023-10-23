@@ -3,32 +3,36 @@ package cdvis.listener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-
-import cdvis.app.ControlPanel;
+import cdvis.app.AppPanel;
 import cdvis.component.Tonnetz;
 import cdvis.sound.NotePlayer;
 
 public class ControlListener implements ActionListener {
 	private final Tonnetz net;
-	private final ControlPanel cPanel;
+	private final AppPanel aPanel;
 	private final NotePlayer player;
 
 
-	public ControlListener(Tonnetz n, ControlPanel c, NotePlayer p) {
-		this.net = n;
-		this.cPanel = c;
-		this.player = p;
-		
-		for (JButton b :cPanel.getButtons()) {
-			b.addActionListener(this);
-		}
-		
+	public ControlListener(Tonnetz n, AppPanel a, NotePlayer p) {
+		net = n;
+		aPanel = a;
+		player = p;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		net.moveNotes( Integer.parseInt(e.getActionCommand()) );
+		int command = Integer.parseInt(e.getActionCommand());
+		if (command * command == 1) {
+			net.rotateNotes(command);
+		}
+		else if (command == 0) {
+			net.clearNote();
+		}
+		else {
+			net.moveNotes(command);
+		}
+		
+		aPanel.repaint();
 		player.setNotes();
 	}
 
