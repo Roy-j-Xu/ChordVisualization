@@ -1,29 +1,28 @@
 package cdvis.app;
 
-import java.awt.BorderLayout;
+import cdvis.component.ChordLabel;
+
+import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
 public class AppFrame extends JFrame {
 	
-	private AppPanel aPanel;
-	private ControlPanel cPanel;
-	
-	public AppFrame(AppPanel a, ControlPanel c) {
-		setUp(a, c);
+	public AppFrame(AppPanel a, ControlPanel c, ChordLabel cl) {
+		setUp(a, c, cl);
 	}
 	
 	
-	public void setUp(AppPanel a, ControlPanel c) {
+	public void setUp(AppPanel aPanel, ControlPanel cPanel, ChordLabel cLabel) {
 		setTitle("Chord Visualization");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setPreferredSize(new Dimension(Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT));
 		setResizable(false);
-		
-		aPanel = a;
-		cPanel = c;
-		
-		add(aPanel, BorderLayout.EAST);
-		add(cPanel, BorderLayout.WEST);
+
+		setLayout(null);
+		add(aPanel);
+		add(cPanel);
+		add(cLabel);
 		pack();
 		setVisible(true);
 		
@@ -34,18 +33,5 @@ public class AppFrame extends JFrame {
 		}
 
 	}
-	
-//	@Override
-//	public void run() {
-//		long lastFrame = 0;
-//		long currentTime = 0;
-//		while(true) {
-//			currentTime = System.currentTimeMillis();
-//			if (currentTime - lastFrame >= 15) {
-//				aPanel.repaint();
-//				lastFrame = currentTime;
-//			}
-//		}
-//	}
 
 }

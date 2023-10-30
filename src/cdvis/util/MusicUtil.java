@@ -1,8 +1,9 @@
 package cdvis.util;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Set;
-
-import cdvis.app.Config;
 
 public class MusicUtil {
 
@@ -10,27 +11,27 @@ public class MusicUtil {
 	}
 	
 	public static String pitchClass(int n) {
-		switch (n%12) {
-		case 0: return "A";
-		case 1: return "Bb";
-		case 2: return "B";
-		case 3: return "C";
-		case 4: return "C#";
-		case 5: return "D";
-		case 6: return "Eb";
-		case 7: return "E";
-		case 8: return "F";
-		case 9: return "F#";
-		case 10: return "G";
-		case 11: return "G#";
-		}
-		return "";
-	}
+        return switch (n % 12) {
+            case 0 -> "A";
+            case 1 -> "Bb";
+            case 2 -> "B";
+            case 3 -> "C";
+            case 4 -> "C#";
+            case 5 -> "D";
+            case 6 -> "Eb";
+            case 7 -> "E";
+            case 8 -> "F";
+            case 9 -> "F#";
+            case 10 -> "G";
+            case 11 -> "G#";
+            default -> "";
+        };
+    }
 	
 	public static String pitchName(int n) {
 		String pitchClass = pitchClass(n);
 		int register = n/12 + 1;
-		if (pitchClass != "A" && pitchClass != "Bb" && pitchClass != "B") {
+		if (!pitchClass.equals("A") && !pitchClass.equals("Bb") && !pitchClass.equals("B")) {
 			register++;
 		}
 		StringBuilder sb = new StringBuilder();
@@ -45,7 +46,7 @@ public class MusicUtil {
 			sb.append(pitchName(i)).append("+");
 		}
 		
-		if (sb.length() > 0) {
+		if (!sb.isEmpty()) {
 			sb.deleteCharAt(sb.length()-1);
 		}
 		
@@ -63,5 +64,63 @@ public class MusicUtil {
 		return result;
 		
 	}
+	
+	public static String recognizeChord(Set<Integer> pressedKey) {
+		ArrayList<Integer> pitchClasses = getPitchClasses(pressedKey);
+		int size = pitchClasses.size();
+		Map<String, String> useDict;
+		switch (size) {
+			case 3:
+				useDict = ChordDict.chord3;
+				break;
+			case 4:
+				useDict = ChordDict.chord7;
+				break;
+			case 5:
+				useDict = ChordDict.chord9;
+				break;
+			default:
+				return "";
+		}
+
+		StringBuilder intervalStringBuilder = getIntervalString(pitchClasses);
+
+		int index;
+		for (Map.Entry<String, String> entry : useDict.entrySet()) {
+			index = intervalStringBuilder.indexOf(entry.getKey());
+			if (index != -1) {
+				return pitchClass(pitchClasses.get(index % size)) + entry.getValue();
+			}
+		}
+
+		return "";
+		
+	}
+
+	public static ArrayList<Integer> getPitchClasses(Set<Integer> pressedKey) {
+		ArrayList<Integer> pitchClasses = new ArrayList<>();
+		for (int note : pressedKey) {
+			if (!pitchClasses.contains(note%12)) {
+				pitchClasses.add(note%12);
+			}
+		}
+		Collections.sort(pitchClasses);
+
+		return pitchClasses;
+	}
+
+	private static StringBuilder getIntervalString(ArrayList<Integer> pitchClasses) {
+		int size = pitchClasses.size();
+		int difference;
+		StringBuilder intervalStringBuilder = new StringBuilder();
+		for (int ind = 0; ind < size+5; ind++) {
+			difference = pitchClasses.get((ind + 1) % size) - pitchClasses.get(ind % size);
+			difference = (difference + 12)%12;
+			intervalStringBuilder.append(difference);
+		}
+		return intervalStringBuilder;
+	}
+
+
 
 }

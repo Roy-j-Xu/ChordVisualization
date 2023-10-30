@@ -1,25 +1,18 @@
 package cdvis.app;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
-import cdvis.component.Tonnetz;
-import cdvis.listener.TonnetzController;
-
 
 
 public class ControlPanel extends JPanel{
 	private final JButton[] buttons;
 
 	public ControlPanel() {
-		this.setPreferredSize(new Dimension(Config.SCREEN_WIDTH/4, Config.SCREEN_HEIGHT));
+		this.setBounds(0, Config.SCREEN_HEIGHT*2/5, Config.SCREEN_WIDTH/4, Config.SCREEN_HEIGHT/2);
 		this.setBackground(new Color(225,225,225));
 		
 		this.setLayout(new GridLayout(5,2));
@@ -44,12 +37,6 @@ public class ControlPanel extends JPanel{
 		b.setContentAreaFilled(false);
 		this.add(b);
 		return b;
-	}
-	
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		
-		Graphics2D g2d = (Graphics2D) g;
 	}
 	
 	public JButton[] getButtons() {

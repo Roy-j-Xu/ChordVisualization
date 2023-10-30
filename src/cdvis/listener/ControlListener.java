@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import cdvis.app.AppPanel;
+import cdvis.component.ChordLabel;
 import cdvis.component.Tonnetz;
 import cdvis.sound.NotePlayer;
 
@@ -11,12 +12,14 @@ public class ControlListener implements ActionListener {
 	private final Tonnetz net;
 	private final AppPanel aPanel;
 	private final NotePlayer player;
+	private final ChordLabel cLabel;
 
 
-	public ControlListener(Tonnetz n, AppPanel a, NotePlayer p) {
+	public ControlListener(Tonnetz n, AppPanel a, NotePlayer p, ChordLabel c) {
 		net = n;
 		aPanel = a;
 		player = p;
+		cLabel = c;
 	}
 
 	@Override
@@ -34,6 +37,7 @@ public class ControlListener implements ActionListener {
 		
 		aPanel.repaint();
 		player.setNotes();
+		cLabel.repaint();
 	}
 
 }
