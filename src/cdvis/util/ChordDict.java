@@ -48,7 +48,9 @@ public class ChordDict {
             Map.entry("1333" , "7b9"),
 
             Map.entry("2143" , "m9"),
-            Map.entry("2144" , "mM9")
+            Map.entry("2144" , "mM9"),
+
+            Map.entry("2232" , "6/9")
     );
 
 }

@@ -10,37 +10,47 @@ import java.awt.*;
 public class ChordLabel extends JLabel {
 
     private final Tonnetz net;
+    private int diameter;
+    private final int[] X = new int[12];
+    private final int[] Y = new int[12];
 
     public ChordLabel(Tonnetz n) {
         net = n;
         setBounds(0,0,Config.SCREEN_WIDTH/4, Config.SCREEN_HEIGHT*2/5);
+        layoutNotes();
     }
 
-    public void plotCircle(Graphics2D g2d) {
+    private void layoutNotes() {
         Dimension dim = getSize();
         int centerX = dim.width/2;
         int centerY = dim.height/2;
-        int diameter = Math.min(dim.width, dim.height) * 4 / 5;
+        diameter = Math.min(dim.width, dim.height) * 4 / 5;
+        for (int fifth = 0; fifth < 12; fifth++) {
+            X[(7*fifth)%12] = centerX + (int) (diameter / 2 * Math.cos(fifth * Math.PI / 6));
+            Y[(7*fifth)%12] = centerY + (int) (diameter / 2 * Math.sin(fifth * Math.PI / 6));
+        }
+    }
+
+    private void plotCircle(Graphics2D g2d) {
+        Dimension dim = getSize();
+        int centerX = dim.width/2;
+        int centerY = dim.height/2;
         int dotSize = diameter / 5;
 
-        Color pressedColor = new Color(100,200,100);
+        Color pressedColor = new Color(100,180,255);
         Color unpressedColor = new Color(180,180,180);
         g2d.setFont(new Font("Serif", Font.BOLD, dotSize/2));
-        int locationX, locationY;
-        for (int fifth = 0; fifth < 12; fifth++) {
-            locationX = centerX + (int) (diameter/2 * Math.cos(7*fifth*Math.PI/6));
-            locationY = centerY + (int) (diameter/2 * Math.sin(7*fifth*Math.PI/6));
-            if (net.getPressedPitchClasses().contains(fifth % 12)) {
+        for (int i = 0; i < 12; i++) {
+            if (net.getPressedPitchClasses().contains(i)) {
                 g2d.setColor(pressedColor);
-                g2d.fillOval(locationX - dotSize/2, locationY - dotSize/2, dotSize, dotSize);
-                g2d.setColor(new Color(0, 130, 0));
-                PlotUtil.drawCenteredText(g2d, locationX, locationY, MusicUtil.pitchClass(fifth));
+                PlotUtil.drawBall(g2d, pressedColor, X[i], Y[i], dotSize);
+                g2d.setColor(new Color(70, 80, 150));
+                PlotUtil.drawCenteredText(g2d, X[i], Y[i], MusicUtil.pitchClass(i));
             }
             else {
-                g2d.setColor(unpressedColor);
-                g2d.fillOval(locationX - dotSize/2, locationY - dotSize/2, dotSize, dotSize);
+                PlotUtil.drawBall(g2d, unpressedColor, X[i], Y[i], dotSize);
                 g2d.setColor(Color.gray);
-                PlotUtil.drawCenteredText(g2d, locationX, locationY, MusicUtil.pitchClass(fifth));
+                PlotUtil.drawCenteredText(g2d, X[i], Y[i], MusicUtil.pitchClass(i));
             }
         }
 
@@ -49,9 +59,23 @@ public class ChordLabel extends JLabel {
         PlotUtil.drawCenteredText(g2d, centerX, centerY, net.getChord());
     }
 
+    private void plotLines(Graphics2D g2d) {
+        g2d.setColor(new Color(200, 200, 255));
+        g2d.setStroke(new BasicStroke((float) diameter /50));
+        for (int firstNote = 0; firstNote < 11; firstNote++) {
+            if (!net.getPressedPitchClasses().contains(firstNote)) continue;
+            for (int secondNote = firstNote+1; secondNote < 12; secondNote++) {
+                if (net.getPressedPitchClasses().contains(secondNote)) {
+                    g2d.drawLine(X[firstNote], Y[firstNote], X[secondNote], Y[secondNote]);
+                }
+            }
+        }
+    }
+
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+        plotLines(g2d);
         plotCircle(g2d);
     }
 

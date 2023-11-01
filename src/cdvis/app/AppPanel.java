@@ -4,14 +4,14 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
-import cdvis.component.Tonnetz;
+import cdvis.component.MusicalNet;
 
 
 public class AppPanel extends JPanel{
 	
-	private final Tonnetz net;
+	private final MusicalNet net;
 
-	public AppPanel(Tonnetz n) {
+	public AppPanel(MusicalNet n) {
 		net = n;
 		setBounds(Config.SCREEN_WIDTH/4, 0, Config.SCREEN_WIDTH*3/4, Config.SCREEN_HEIGHT);
 	}

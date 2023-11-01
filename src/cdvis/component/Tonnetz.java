@@ -13,7 +13,7 @@ import cdvis.app.Config;
 import cdvis.util.MusicUtil;
 import cdvis.util.PlotUtil;
 
-public class Tonnetz extends Graph{
+public class Tonnetz extends Graph implements MusicalNet{
 	private final int noteRange = Config.tonnetzNoteRange;
 	private final int[] relNoteX, relNoteY;
 	private final int[] noteX, noteY;
@@ -36,7 +36,6 @@ public class Tonnetz extends Graph{
 	}
 	
 	private void layoutRelativeLoc() {
-		
 		for (int note = 0; note < noteRange; note++) {
 			relNoteY[note] = 6 - (3 + 2 * (note % 7)) % 7;
 			if (note % 7 == 6 || note % 7 == 0 || note % 7 == 1) {
@@ -45,7 +44,6 @@ public class Tonnetz extends Graph{
 				relNoteX[note] = (note/7) * 2 + 1;
 			}
 		}
-		
 	}
 	
 	private void layout() {
@@ -61,7 +59,7 @@ public class Tonnetz extends Graph{
 		for (int note = 0; note < noteRange; note++) {
 			this.addVertex(note);
 		}
-		int mod = 0;
+		int mod;
 		for (int note = 0; note < noteRange-3; note++){
 			mod = note % 7;
 			if (mod != 2) {
@@ -80,13 +78,12 @@ public class Tonnetz extends Graph{
     	layout();  	
     	plotEdges(g2d);
     	plotNodes(g2d);
-    	
     }
     
     public void plotEdges(Graphics2D g2d) {
     	int buttonSize = Config.BUTTON_SIZE;
-    	g2d.setStroke(new BasicStroke(buttonSize/7));
-    	Color unpressedColor = new Color(195,195,195);
+    	g2d.setStroke(new BasicStroke((float) buttonSize /8));
+    	Color unpressedColor = new Color(200,200,200);
     	Color pressedColor = new Color(80,180,80);
 
     	for (int i = 0; i < noteRange; i++) {
@@ -105,9 +102,8 @@ public class Tonnetz extends Graph{
     public void plotNodes(Graphics2D g2d) {
     	int buttonSize = Config.BUTTON_SIZE;
     	if (rotationCenter > -1) {
-    		g2d.setPaint(new Color(80,180,80));
         	int centerSize = buttonSize * 5/4;
-        	g2d.fillOval(noteX[rotationCenter] - centerSize/2, noteY[rotationCenter] - centerSize/2, centerSize, centerSize);
+			PlotUtil.drawBall(g2d, new Color(80,180,80), noteX[rotationCenter], noteY[rotationCenter], centerSize);
     	}
     	
     	Color unpressedColor = new Color(100,200,100);
@@ -115,12 +111,11 @@ public class Tonnetz extends Graph{
     	g2d.setPaint(unpressedColor);
     	for (int i = 0; i < noteRange; i++) {
     		if (!pressedKey.contains(i)) {
-    			g2d.fillOval(noteX[i] - buttonSize/2, noteY[i] - buttonSize/2, buttonSize, buttonSize);
+    			PlotUtil.drawBall(g2d, unpressedColor, noteX[i], noteY[i], buttonSize);
     		}
-    	}
-    	g2d.setPaint(pressedColor);
-    	for (int i : pressedKey) {
-    		g2d.fillOval(noteX[i] - buttonSize/2, noteY[i] - buttonSize/2, buttonSize, buttonSize);
+			else {
+				PlotUtil.drawBall(g2d, pressedColor, noteX[i], noteY[i], buttonSize);
+			}
     	}
     	
     	g2d.setFont(new Font("Arial", Font.BOLD, buttonSize/5 * 3));
@@ -130,7 +125,7 @@ public class Tonnetz extends Graph{
     	}
     }
     
-    public void press(int x, int y) {
+    public boolean press(int x, int y) {
     	MusicUtil.recognizeChord(pressedKey);
 
     	int buttonSize = Config.BUTTON_SIZE;
@@ -138,9 +133,10 @@ public class Tonnetz extends Graph{
     		if (Math.abs(x-noteX[i]) < buttonSize/2 && Math.abs(y-noteY[i]) < buttonSize/2) {
     			if (pressedKey.contains(i)) pressedKey.remove(i);
     			else pressedKey.add(i);
-    			return;
+    			return true;
     		}
     	}
+		return false;
     }
     
     public void moveNotes(int halfSteps) {
@@ -154,7 +150,6 @@ public class Tonnetz extends Graph{
         	rotationCenter += halfSteps + noteRange;
         	rotationCenter %= noteRange;    		
     	}
-
     }
     
     

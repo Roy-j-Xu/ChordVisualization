@@ -28,32 +28,6 @@ public class MusicUtil {
         };
     }
 	
-	public static String pitchName(int n) {
-		String pitchClass = pitchClass(n);
-		int register = n/12 + 1;
-		if (!pitchClass.equals("A") && !pitchClass.equals("Bb") && !pitchClass.equals("B")) {
-			register++;
-		}
-		StringBuilder sb = new StringBuilder();
-		sb.append(pitchClass).append(register).append("wh");
-		return sb.toString();
-	}
-	
-	public static String chordString(Set<Integer> n) {
-		StringBuilder sb = new StringBuilder();
-		
-		for (int i:n) {
-			sb.append(pitchName(i)).append("+");
-		}
-		
-		if (!sb.isEmpty()) {
-			sb.deleteCharAt(sb.length()-1);
-		}
-		
-		return sb.toString();
-	}
-	
-	
 	public static int tonnetzPathRotation(int[] coef, int direction) {
 		int result;
 		if (direction == -1) {
@@ -92,9 +66,7 @@ public class MusicUtil {
 				return pitchClass(pitchClasses.get(index % size)) + entry.getValue();
 			}
 		}
-
 		return "";
-		
 	}
 
 	public static ArrayList<Integer> getPitchClasses(Set<Integer> pressedKey) {

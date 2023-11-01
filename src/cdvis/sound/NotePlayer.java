@@ -2,39 +2,41 @@ package cdvis.sound;
 
 import java.util.Set;
 
-import org.jfugue.pattern.Pattern;
-import org.jfugue.player.*;
-
-import cdvis.util.MusicUtil;
+import javax.sound.midi.*;
 
 
-public class NotePlayer implements Runnable{
-	private Set<Integer> pressedKey;
-	private Player player;
-	private Pattern pattern;
-	private Thread playerThread;
+public class NotePlayer {
+	private final Set<Integer> pressedKey;
+	private final MidiChannel channel;
+	private int instrument = 73;
 
-	public NotePlayer(Set<Integer> n) {
+	public NotePlayer(Set<Integer> n) throws MidiUnavailableException {
 		pressedKey = n;
-		player = new Player();
-		pattern = new Pattern();
-		pattern.setTempo(200);
-		
-		playerThread = new Thread(this);
-		playerThread.start();
+		Synthesizer synth = MidiSystem.getSynthesizer();
+		synth.open();
+		channel = synth.getChannels()[0];
+		channel.programChange(instrument);
+	}
+
+	public void stop() {
+		channel.allNotesOff();
 	}
 	
 	public void setNotes() {
-		pattern.clear();
-		pattern.add(MusicUtil.chordString(pressedKey));
-		
+		channel.allNotesOff();
+		for (int i : pressedKey) {
+			channel.noteOn(i+12, 100);
+		}
 	}
 
-	@Override
-	public void run() {
-		while (true) {
-			player.play(pattern);
-		}
+	public void setInstrument(int instr) {
+		instrument = instr;
+		channel.programChange(instrument);
+		setNotes();
+	}
+
+	public int getInstrument() {
+		return instrument;
 	}
 
 }

@@ -15,7 +15,7 @@ public class AppFrame extends JFrame {
 	
 	public void setUp(AppPanel aPanel, ControlPanel cPanel, ChordLabel cLabel) {
 		setTitle("Chord Visualization");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setPreferredSize(new Dimension(Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT));
 		setResizable(false);
 
