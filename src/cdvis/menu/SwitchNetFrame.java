@@ -1,6 +1,7 @@
 package cdvis.menu;
 
 import cdvis.app.AppPanel;
+import cdvis.app.ControlPanel;
 import cdvis.component.ChordLabel;
 import cdvis.component.DualTonnetz;
 import cdvis.component.MusicalNet;
@@ -16,15 +17,19 @@ import java.awt.*;
 
 public class SwitchNetFrame extends JFrame {
     private final AppPanel aPanel;
+    private final ControlPanel cPanel;
     private final ControlListener cListener;
     private final TonnetzMover tMover;
     private final TonnetzController tController;
     private final NotePlayer player;
     private final ChordLabel cLabel;
+
     JComboBox<String> comboBox;
 
-    public SwitchNetFrame(AppPanel a, ControlListener cl , TonnetzMover t, TonnetzController tc, NotePlayer p, ChordLabel clb) {
+    public SwitchNetFrame(AppPanel a, ControlPanel c, ControlListener cl,
+                          TonnetzMover t, TonnetzController tc, NotePlayer p, ChordLabel clb) {
         aPanel = a;
+        cPanel = c;
         cListener = cl;
         tMover = t;
         tController = tc;
@@ -42,7 +47,6 @@ public class SwitchNetFrame extends JFrame {
 
         String[] options = {"Tonnetz", "Dual-Tonnetz"};
         comboBox = new JComboBox<>(options);
-
         add(comboBox);
         addButtons();
         setVisible(true);
@@ -54,7 +58,8 @@ public class SwitchNetFrame extends JFrame {
         confirmButton.setContentAreaFilled(false);
         confirmButton.addActionListener(e -> {
             MusicalNet net;
-            switch (comboBox.getSelectedIndex()) {
+            int currentNet = comboBox.getSelectedIndex();
+            switch (currentNet) {
                 case 0:
                     net = new Tonnetz();
                     break;
@@ -64,6 +69,7 @@ public class SwitchNetFrame extends JFrame {
                 default: return;
             }
             aPanel.changeMusicalNet(net);
+            cPanel.changeMusicalNet(currentNet);
             cListener.changeMusicalNet(net);
             tMover.changeMusicalNet(net);
             tController.changeMusicalNet(net);
@@ -71,6 +77,7 @@ public class SwitchNetFrame extends JFrame {
             cLabel.changeMusicalNet(net);
 
             aPanel.repaint();
+            cLabel.repaint();
             player.setNotes();
 
             this.dispose();

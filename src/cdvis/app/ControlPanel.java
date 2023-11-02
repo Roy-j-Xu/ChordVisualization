@@ -18,11 +18,11 @@ public class ControlPanel extends JPanel{
 		this.setLayout(new GridLayout(5,2));
 		
 		buttons = new JButton[9];
-		buttons[0] = addButton("Move Down by P5", "-7");
-		buttons[1] = addButton("Move Up by P5", "7");
-		buttons[2] = addButton("Move Down by M3", "-4");
-		buttons[3] = addButton("Move Up by M3", "4");
-		buttons[4] = addButton("Move Down by m3", "-3");
+		buttons[0] = addButton("Move Down by m3", "-3");
+		buttons[1] = addButton("Move Up by M3", "4");
+		buttons[2] = addButton("Move Down by P5", "-7");
+		buttons[3] = addButton("Move Up by P5", "7");
+		buttons[4] = addButton("Move Down by M3", "-4");
 		buttons[5] = addButton("Move Up by m3", "3");
 		buttons[6] = addButton("Rotate counterclockwise", "1");
 		buttons[7] = addButton("Rotate clockwise", "-1");
@@ -37,6 +37,31 @@ public class ControlPanel extends JPanel{
 		b.setContentAreaFilled(false);
 		this.add(b);
 		return b;
+	}
+
+	private void changeButtonDescription(String[] description) {
+		for (int i = 0; i <= 7; i++) {
+			buttons[i].setText(description[i]);
+		}
+	}
+
+	public void changeMusicalNet(int netIndex) {
+		switch (netIndex) {
+			case 0:
+				String[] descrip0 = {
+						"Move Down by P5", "Move Up by P5", "Move Down by M3", "Move Up by M3",
+						"Move Down by m3", "Move Up by m3", "Rotate counterclockwise", "Rotate clockwise"
+				};
+				changeButtonDescription(descrip0);
+				return;
+			case 1:
+				String[] descrip1 = {
+						"To Upper-left" , "To Upper-right", "To the Left", "To the Right",
+						"To Lower-left", "To Lower-right", "-", "-"
+				};
+				changeButtonDescription(descrip1);
+		}
+
 	}
 	
 	public JButton[] getButtons() {

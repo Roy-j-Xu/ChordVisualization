@@ -14,15 +14,17 @@ There are three forms of visualization in this program.
 
 ![App](examples/App.png)
 
-- By changing the setting you can also check out the dual graph of the Tonnetz. Here red nodes represents major chords, and blue ones represents minor chord. Two chords are connected when they share 2 common notes.
+- By changing the settings you can also view the dual graph of the Tonnetz, where red and blue nodes represents major and minor triads respectively. Two triads are connected when they share 2 common notes.
 
 ![DualNet](examples/DualNet.png)
+
+
 
 ## Usage
 
 Left click on notes to press. Use the control panel to apply operations to the pressed notes. These operations are:
 
-- Move by P5, M3, m3 interval. All notes will go up or down by certain interval after this operation.
+- Moving along edges. On Tonnetz this means parallel movement by P5, M3 or m3 interval. On Dual-Tonnetz things are much more interesting since chord structures change as they travel. 
 - Rotation. All notes will rotate by 60 degree according to rotation center after this operation. Right click to set rotation center. Since Tonnetz is topologically a torus, this operation is only well-defined locally. It can behave in unexpected way when your note group is too large or when it touches right or left boundary. This operation is currently not available for dual-Tonnetz.
 
 You can also change instrument in the settings menu. All instruments in general midi are supported.

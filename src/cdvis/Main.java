@@ -52,7 +52,8 @@ public class Main {
 	}
 
 	public void addMenu() {
-		SettingsMenu settingsMenu = new SettingsMenu(aPanel, CListener, TMover, TController, player, cLabel);
+		SettingsMenu settingsMenu = new SettingsMenu(aPanel, cPanel, CListener, TMover,
+				TController, player, cLabel);
 
 		MenuBar menuBar = new MenuBar();
 		menuBar.add(settingsMenu);

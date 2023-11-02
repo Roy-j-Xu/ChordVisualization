@@ -158,11 +158,33 @@ public class DualTonnetz extends Graph implements MusicalNet{
 		return false;
     }
 
-    public void moveNotes(int halfSteps) {
+    public void moveNotes(int command) {
     	LinkedList<Integer> newKey = new LinkedList<>();
-    	for (int i : pressedChord) {
-    		newKey.add((i%chordRange + chordRange + halfSteps)%chordRange + chordRange * (i/chordRange));
-    	}
+		int sign = (command > 1) ? 1:-1;
+		switch (Math.abs(command)) {
+			case 3:
+				for (int i : pressedChord) {
+					if (sign*i < sign*chordRange) newKey.add(i+chordRange*sign);
+					else newKey.add(i+command-chordRange*sign);
+				}
+				break;
+			case 4:
+				for (int i : pressedChord) {
+					if (sign*i < sign*chordRange) newKey.add(i+command+chordRange*sign);
+					else newKey.add(i-chordRange*sign);
+				}
+				break;
+			case 7:
+				for (int i : pressedChord) {
+					if (i < chordRange && sign > 0) newKey.add(i+4+chordRange);
+					if (i < chordRange && sign < 0) newKey.add(i-3+chordRange);
+					if (i > chordRange && sign > 0) newKey.add(i+3-chordRange);
+					if (i > chordRange && sign < 0) newKey.add(i-4-chordRange);
+				}
+				break;
+			default: break;
+		}
+
     	pressedChord.clear();
 		pressedChord.addAll(newKey);
 		updatePressedKey();
