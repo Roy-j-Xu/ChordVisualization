@@ -9,20 +9,26 @@ import cdvis.app.AppFrame;
 import cdvis.app.AppPanel;
 import cdvis.app.ControlPanel;
 import cdvis.component.ChordLabel;
+import cdvis.component.MusicalNet;
 import cdvis.component.Tonnetz;
 import cdvis.listener.ControlListener;
 import cdvis.listener.TonnetzController;
 import cdvis.listener.TonnetzMover;
 import cdvis.menu.MenuBar;
+import cdvis.menu.SettingsMenu;
 import cdvis.sound.NotePlayer;
 
 public class Main {
 	private AppPanel aPanel;
 	private ControlPanel cPanel;
 	private ChordLabel cLabel;
-	private Tonnetz net;
+	private MusicalNet net;
 	private NotePlayer player;
 	private AppFrame aFrame;
+
+	private TonnetzController TController;
+	private TonnetzMover TMover;
+	private ControlListener CListener;
 
 	public Main() {
 		init();
@@ -38,24 +44,32 @@ public class Main {
 		aPanel = new AppPanel(net);
 		cPanel = new ControlPanel();
 		cLabel = new ChordLabel(net);
-		MenuBar menuBar = new MenuBar(player);
-
 		aFrame = new AppFrame(aPanel, cPanel, cLabel);
-		aFrame.setJMenuBar(menuBar);
 		
 		addListeners();
+		addMenu();
+
+	}
+
+	public void addMenu() {
+		SettingsMenu settingsMenu = new SettingsMenu(aPanel, CListener, TMover, TController, player, cLabel);
+
+		MenuBar menuBar = new MenuBar();
+		menuBar.add(settingsMenu);
+
+		aFrame.setJMenuBar(menuBar);
 	}
 	
 	public void addListeners() {
-		TonnetzController TController = new TonnetzController(net, aPanel, player, cLabel);
+		TController = new TonnetzController(net, aPanel, player, cLabel);
 		aPanel.addMouseListener(TController);
 
-		TonnetzMover TMover = new TonnetzMover(net, aPanel);
+		TMover = new TonnetzMover(net, aPanel);
 		aPanel.addMouseListener(TMover);
 		aPanel.addMouseMotionListener(TMover);
 		aPanel.addMouseWheelListener(TMover);
-		
-		ControlListener CListener = new ControlListener(net, aPanel, player, cLabel);
+
+		CListener = new ControlListener(net, aPanel, player, cLabel);
 		for (JButton b : cPanel.getButtons()) {
 			b.addActionListener(CListener);
 		}

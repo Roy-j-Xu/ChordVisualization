@@ -17,6 +17,7 @@ public class Tonnetz extends Graph implements MusicalNet{
 	private final int noteRange = Config.tonnetzNoteRange;
 	private final int[] relNoteX, relNoteY;
 	private final int[] noteX, noteY;
+	int gap;
 	private final Set<Integer> pressedKey;
 	private int netX = -100, netY = 60;
 	
@@ -47,11 +48,10 @@ public class Tonnetz extends Graph implements MusicalNet{
 	}
 	
 	private void layout() {
-		int gap = Config.BUTTON_SIZE * 11 / 5;
-		
+		gap = Config.BUTTON_SIZE * 11 / 10;
 		for (int note = 0; note < noteRange; note++) {
-			noteX[note] = netX + relNoteX[note] * (gap/2);
-			noteY[note] = netY + relNoteY[note] * gap * 433 / 500;
+			noteX[note] = netX + relNoteX[note] * gap;
+			noteY[note] = netY + relNoteY[note] * gap * 433 / 250;
 		}
 	}
 	
@@ -59,13 +59,9 @@ public class Tonnetz extends Graph implements MusicalNet{
 		for (int note = 0; note < noteRange; note++) {
 			this.addVertex(note);
 		}
-		int mod;
 		for (int note = 0; note < noteRange-3; note++){
-			mod = note % 7;
-			if (mod != 2) {
-				this.addEdge(note, note+3);
-			}
-			if (note + 4 < noteRange && mod != 5) {
+			this.addEdge(note, note+3);
+			if (note + 4 < noteRange) {
 				this.addEdge(note, note+4);
 			}
 			if (note + 7 < noteRange) {
@@ -93,7 +89,19 @@ public class Tonnetz extends Graph implements MusicalNet{
         		} else {
         			g2d.setPaint(unpressedColor);
         		}
-    			g2d.drawLine(noteX[i], noteY[i], noteX[j], noteY[j]);
+				if (relNoteY[i]-relNoteY[j] > 2) {
+					int imaginaryX = noteX[j] + gap;
+					int imaginaryY = noteY[j] + 7 * gap * 433 / 250;
+					g2d.drawLine(noteX[i], noteY[i], (imaginaryX + noteX[i])/2, (imaginaryY + noteY[i])/2);
+				}
+				else if (relNoteY[j]-relNoteY[i] > 2) {
+					int imaginaryX = noteX[j] - gap;
+					int imaginaryY = noteY[j] - 7 * gap * 433 / 250;
+					g2d.drawLine(noteX[i], noteY[i], (imaginaryX + noteX[i])/2, (imaginaryY + noteY[i])/2);
+				}
+				else {
+					g2d.drawLine(noteX[i], noteY[i], noteX[j], noteY[j]);
+				}
     		}
     	}
     }
@@ -108,7 +116,6 @@ public class Tonnetz extends Graph implements MusicalNet{
     	
     	Color unpressedColor = new Color(100,200,100);
     	Color pressedColor = new Color(0,80,0);
-    	g2d.setPaint(unpressedColor);
     	for (int i = 0; i < noteRange; i++) {
     		if (!pressedKey.contains(i)) {
     			PlotUtil.drawBall(g2d, unpressedColor, noteX[i], noteY[i], buttonSize);
@@ -126,8 +133,6 @@ public class Tonnetz extends Graph implements MusicalNet{
     }
     
     public boolean press(int x, int y) {
-    	MusicUtil.recognizeChord(pressedKey);
-
     	int buttonSize = Config.BUTTON_SIZE;
     	for (int i = 0; i < noteRange; i++) {
     		if (Math.abs(x-noteX[i]) < buttonSize/2 && Math.abs(y-noteY[i]) < buttonSize/2) {
@@ -148,7 +153,7 @@ public class Tonnetz extends Graph implements MusicalNet{
 		pressedKey.addAll(newKey);
     	if (rotationCenter > -1) {
         	rotationCenter += halfSteps + noteRange;
-        	rotationCenter %= noteRange;    		
+        	rotationCenter %= noteRange;
     	}
     }
     

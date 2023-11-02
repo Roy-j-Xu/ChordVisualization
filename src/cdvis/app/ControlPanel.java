@@ -20,10 +20,10 @@ public class ControlPanel extends JPanel{
 		buttons = new JButton[9];
 		buttons[0] = addButton("Move Down by P5", "-7");
 		buttons[1] = addButton("Move Up by P5", "7");
-		buttons[2] = addButton("Move Down by m3", "-3");
-		buttons[3] = addButton("Move Up by m3", "3");
-		buttons[4] = addButton("Move Down by M3", "-4");
-		buttons[5] = addButton("Move Up by M3", "4");
+		buttons[2] = addButton("Move Down by M3", "-4");
+		buttons[3] = addButton("Move Up by M3", "4");
+		buttons[4] = addButton("Move Down by m3", "-3");
+		buttons[5] = addButton("Move Up by m3", "3");
 		buttons[6] = addButton("Rotate counterclockwise", "1");
 		buttons[7] = addButton("Rotate clockwise", "-1");
 		buttons[8] = addButton("Clear", "0");

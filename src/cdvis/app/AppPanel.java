@@ -9,7 +9,7 @@ import cdvis.component.MusicalNet;
 
 public class AppPanel extends JPanel{
 	
-	private final MusicalNet net;
+	private MusicalNet net;
 
 	public AppPanel(MusicalNet n) {
 		net = n;
@@ -20,6 +20,10 @@ public class AppPanel extends JPanel{
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 		net.plot(g2d);
+	}
+
+	public void changeMusicalNet(MusicalNet n) {
+		net = n;
 	}
 
 }

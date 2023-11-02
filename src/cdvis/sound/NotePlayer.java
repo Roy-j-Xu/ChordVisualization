@@ -6,7 +6,7 @@ import javax.sound.midi.*;
 
 
 public class NotePlayer {
-	private final Set<Integer> pressedKey;
+	private Set<Integer> pressedKey;
 	private final MidiChannel channel;
 	private int instrument = 73;
 
@@ -27,6 +27,10 @@ public class NotePlayer {
 		for (int i : pressedKey) {
 			channel.noteOn(i+12, 100);
 		}
+	}
+
+	public void setPressedKey(Set<Integer> p) {
+		pressedKey = p;
 	}
 
 	public void setInstrument(int instr) {

@@ -9,12 +9,12 @@ import java.awt.*;
 
 public class ChordLabel extends JLabel {
 
-    private final Tonnetz net;
+    private MusicalNet net;
     private int diameter;
     private final int[] X = new int[12];
     private final int[] Y = new int[12];
 
-    public ChordLabel(Tonnetz n) {
+    public ChordLabel(MusicalNet n) {
         net = n;
         setBounds(0,0,Config.SCREEN_WIDTH/4, Config.SCREEN_HEIGHT*2/5);
         layoutNotes();
@@ -70,6 +70,10 @@ public class ChordLabel extends JLabel {
                 }
             }
         }
+    }
+
+    public void changeMusicalNet(MusicalNet n) {
+        net = n;
     }
 
     public void paintComponent(Graphics g) {

@@ -3,7 +3,6 @@ package cdvis.listener;
 import cdvis.app.AppPanel;
 import cdvis.app.Config;
 import cdvis.component.MusicalNet;
-import cdvis.component.Tonnetz;
 
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -14,7 +13,7 @@ import java.awt.event.MouseWheelListener;
 
 
 public class TonnetzMover implements MouseListener, MouseMotionListener, MouseWheelListener{
-	private final MusicalNet net;
+	private MusicalNet net;
 	private final AppPanel aPanel;
 
 	private Point dragStart;
@@ -22,9 +21,13 @@ public class TonnetzMover implements MouseListener, MouseMotionListener, MouseWh
 
 	private long lastFrame = 0;
 
-	public TonnetzMover(Tonnetz n, AppPanel a) {
+	public TonnetzMover(MusicalNet n, AppPanel a) {
 		net = n;
 		aPanel = a;
+	}
+
+	public void changeMusicalNet(MusicalNet n) {
+		net = n;
 	}
 	
 	@Override
@@ -70,8 +73,8 @@ public class TonnetzMover implements MouseListener, MouseMotionListener, MouseWh
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		int notches = e.getWheelRotation();
 		Config.BUTTON_SIZE += notches*3;
-		if (Config.BUTTON_SIZE < 0) {
-			Config.BUTTON_SIZE = 0;
+		if (Config.BUTTON_SIZE < 20) {
+			Config.BUTTON_SIZE = 20;
 			return;
 		}
 

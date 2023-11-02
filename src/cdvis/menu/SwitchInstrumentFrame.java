@@ -3,11 +3,9 @@ package cdvis.menu;
 import cdvis.sound.NotePlayer;
 import cdvis.util.InstrumentDict;
 
-import javax.sound.midi.MidiUnavailableException;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.util.HashSet;
 
 public class SwitchInstrumentFrame extends JFrame {
     private final NotePlayer player;
@@ -18,13 +16,13 @@ public class SwitchInstrumentFrame extends JFrame {
     public SwitchInstrumentFrame(NotePlayer p) {
         player = p;
 
-        setTitle("Chord Visualization");
+        setTitle("Change Instrument");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(600, 500);
         setResizable(false);
         try {
             setLocationRelativeTo(null);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
 
@@ -70,10 +68,6 @@ public class SwitchInstrumentFrame extends JFrame {
 
         panel.add(confirmButton, BorderLayout.EAST);
         panel.add(cancelButton, BorderLayout.EAST);
-    }
-
-    public static void main(String[] args) throws MidiUnavailableException {
-        new SwitchInstrumentFrame(new NotePlayer(new HashSet<>()));
     }
 
 }
