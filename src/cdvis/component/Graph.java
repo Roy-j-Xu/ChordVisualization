@@ -1,11 +1,10 @@
 package cdvis.component;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class Graph {
-    private HashMap<Integer, LinkedList<Integer>> adjacency;
+    private final HashMap<Integer, LinkedList<Integer>> adjacency;
 
     public Graph() {
         adjacency = new HashMap<>();
@@ -35,14 +34,11 @@ public class Graph {
     public int[] algebraicBFS(int source, int end) {
     	int[] parent = new int[this.vertexNumber()];
     	boolean[] visited = new boolean[this.vertexNumber()];
-    	int[] distance = new int[this.vertexNumber()];
-    	Arrays.fill(distance, 1000);
     	
     	Queue<Integer> queue = new LinkedList<>();
     	queue.add(source);
     	parent[source] = source;
     	visited[source] = true;
-    	distance[source] = 0;
     	
     	while (!queue.isEmpty()) {
     		int current = queue.poll();
@@ -51,7 +47,6 @@ public class Graph {
     			if (!visited[neighbor]) {
     				visited[neighbor] = true;
     				queue.add(neighbor);
-    				distance[neighbor] = distance[current] + 1;
     				parent[neighbor] = current;
     			}
     		}
@@ -79,10 +74,46 @@ public class Graph {
     	return coef;
     }
 
-    public void print() {
-        for (int i : this.getAllVertices()) {
-            System.out.println(adjacency.get(i));
-        }
-    }
+	public int[] dualAlgebraicBFS(int source, int end, int range) {
+		int[] parent = new int[this.vertexNumber()];
+		boolean[] visited = new boolean[this.vertexNumber()];
+
+		Queue<Integer> queue = new LinkedList<>();
+		queue.add(source);
+		parent[source] = source;
+		visited[source] = true;
+
+		while (!queue.isEmpty()) {
+			int current = queue.poll();
+			LinkedList<Integer> randomNeighbors = new LinkedList<>(this.getNeighbors(current));
+			for (int neighbor:randomNeighbors) {
+				if (!visited[neighbor]) {
+					visited[neighbor] = true;
+					queue.add(neighbor);
+					parent[neighbor] = current;
+				}
+			}
+		}
+
+		int[] coef = {0,0,0};
+		int current = end;
+		int difference;
+		while (true) {
+			if (current == parent[current]) break;
+			difference = current%range - parent[current]%range;
+			if (difference == 3 || difference == -3) {
+				coef[0] += difference / 3;
+			}
+			else if (difference == 4 || difference == -4) {
+				coef[1] += difference / 4;
+			}
+			else if (difference == 0) {
+				coef[2] += (current > parent[current]) ? 1:-1;
+			}
+
+			current = parent[current];
+		}
+		return coef;
+	}
     
 }

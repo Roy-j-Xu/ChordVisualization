@@ -36,7 +36,39 @@ public class MusicUtil {
 			result = 7 * coef[0] - 3 * coef[1] + 4 * coef[2];
 		}
 		return result;
-		
+	}
+
+	public static int dualnetMoveNote(int note, int chordRange, int command) {
+		int sign = (command > 1) ? 1 : -1;
+		switch (Math.abs(command)) {
+			case 3:
+				if (note < chordRange && sign > 0) return note + chordRange;
+				if (note < chordRange) return (note + chordRange - 3)%chordRange + chordRange;
+				if (sign > 0) return (note + 3)%chordRange;
+				return note - chordRange;
+			case 4:
+				if (note < chordRange && sign > 0) return (note + 4)%chordRange + chordRange;
+				if (note < chordRange) return note + chordRange;
+				if (sign > 0) return note - chordRange;
+				return (note + chordRange - 4)%chordRange;
+			case 7:
+				if (note < chordRange && sign > 0) return (note + 4)%chordRange + chordRange;
+				if (note < chordRange) return (note + chordRange - 3)%chordRange + chordRange;
+				if (sign > 0) return (note + 3)%chordRange;
+				return (note - 4)%chordRange;
+			default:
+				return note;
+		}
+	}
+
+	public static int dualnetRotation(int note, int center, int[] coef, int chordRange,  int direction) {
+		int path;
+		if (direction == -1) {
+			path = - 4 * coef[0] - 3 * coef[2];
+		} else {
+			path =  - 3 * coef[1] + 4 * coef[2];
+		}
+		return (center + chordRange + path)%chordRange + (note/chordRange)*chordRange;
 	}
 	
 	public static String recognizeChord(Set<Integer> pressedKey) {

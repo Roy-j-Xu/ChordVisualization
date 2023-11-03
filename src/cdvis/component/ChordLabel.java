@@ -61,7 +61,7 @@ public class ChordLabel extends JLabel {
 
     private void plotLines(Graphics2D g2d) {
         g2d.setColor(new Color(200, 200, 255));
-        g2d.setStroke(new BasicStroke((float) diameter /50));
+        g2d.setStroke(new BasicStroke((float) diameter /60));
         for (int firstNote = 0; firstNote < 11; firstNote++) {
             if (!net.getPressedPitchClasses().contains(firstNote)) continue;
             for (int secondNote = firstNote+1; secondNote < 12; secondNote++) {

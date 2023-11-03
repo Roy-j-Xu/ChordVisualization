@@ -25,7 +25,7 @@ public class NotePlayer {
 	public void setNotes() {
 		channel.allNotesOff();
 		for (int i : pressedKey) {
-			channel.noteOn(i+12, 100);
+			channel.noteOn(i+24, 100);
 		}
 	}
 
