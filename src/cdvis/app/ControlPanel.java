@@ -41,7 +41,7 @@ public class ControlPanel extends JPanel{
 
 	private void changeButtonDescription(String[] description) {
 		for (int i = 0; i <= 7; i++) {
-			buttons[i].setText(description[i]);
+			buttons[i].setText("<html><div style='padding: 10px;'>" + description[i] + "</div><html>");
 		}
 	}
 
@@ -57,7 +57,7 @@ public class ControlPanel extends JPanel{
 			case 1:
 				String[] descrip1 = {
 						"To Upper-left" , "To Upper-right", "To the Left", "To the Right",
-						"To Lower-left", "To Lower-right", "-", "-"
+						"To Lower-left", "To Lower-right", "Rotate counterclockwise", "Rotate clockwise"
 				};
 				changeButtonDescription(descrip1);
 		}
