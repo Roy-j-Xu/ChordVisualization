@@ -2,10 +2,7 @@ package cdvis.menu;
 
 import cdvis.app.AppPanel;
 import cdvis.app.ControlPanel;
-import cdvis.component.ChordLabel;
-import cdvis.component.DualTonnetz;
-import cdvis.component.MusicalNet;
-import cdvis.component.Tonnetz;
+import cdvis.component.*;
 import cdvis.listener.ControlListener;
 import cdvis.listener.TonnetzController;
 import cdvis.listener.TonnetzMover;
@@ -45,7 +42,7 @@ public class SwitchNetFrame extends JFrame {
         } catch (Exception ignored) {
         }
 
-        String[] options = {"Tonnetz", "Dual-Tonnetz"};
+        String[] options = {"Tonnetz", "Dual-Tonnetz", "Infinite Tonnetz"};
         comboBox = new JComboBox<>(options);
         add(comboBox);
         addButtons();
@@ -66,6 +63,9 @@ public class SwitchNetFrame extends JFrame {
                 case 1:
                     net = new DualTonnetz();
                     break;
+                case 2:
+                    net = new InfiniteTonnetz();
+                    break;
                 default: return;
             }
             aPanel.changeMusicalNet(net);
@@ -73,7 +73,7 @@ public class SwitchNetFrame extends JFrame {
             cListener.changeMusicalNet(net);
             tMover.changeMusicalNet(net);
             tController.changeMusicalNet(net);
-            player.setPressedKey(net.getPressedKey());
+            player.changeMusicalNet(net);
             cLabel.changeMusicalNet(net);
 
             aPanel.repaint();

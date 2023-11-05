@@ -77,6 +77,10 @@ public class TonnetzMover implements MouseListener, MouseMotionListener, MouseWh
 			Config.BUTTON_SIZE = 20;
 			return;
 		}
+		if (Config.BUTTON_SIZE > 80) {
+			Config.BUTTON_SIZE = 80;
+			return;
+		}
 
 		Point mousePoint = e.getPoint();
 		int X = net.getNetX();

@@ -37,14 +37,14 @@ public class ChordLabel extends JLabel {
         int centerY = dim.height/2;
         int dotSize = diameter / 5;
 
-        Color pressedColor = new Color(100,180,255);
+        Color pressedColor = new Color(140,180,255);
         Color unpressedColor = new Color(180,180,180);
         g2d.setFont(new Font("Serif", Font.BOLD, dotSize/2));
         for (int i = 0; i < 12; i++) {
             if (net.getPressedPitchClasses().contains(i)) {
                 g2d.setColor(pressedColor);
                 PlotUtil.drawBall(g2d, pressedColor, X[i], Y[i], dotSize);
-                g2d.setColor(new Color(70, 80, 150));
+                g2d.setColor(new Color(60, 90, 120));
                 PlotUtil.drawCenteredText(g2d, X[i], Y[i], MusicUtil.pitchClass(i));
             }
             else {

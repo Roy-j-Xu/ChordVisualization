@@ -84,17 +84,17 @@ public class DualTonnetz extends Graph implements MusicalNet{
     	plotNodes(g2d);
     }
 
-    public void plotEdges(Graphics2D g2d) {
+    private void plotEdges(Graphics2D g2d) {
     	int buttonSize = Config.BUTTON_SIZE;
-    	g2d.setStroke(new BasicStroke((float) buttonSize /8));
     	Color unpressedColor = new Color(200,200,200);
     	Color pressedColor = new Color(120,120,120);
-
     	for (int i = 0; i < chordRange*2; i++) {
     		for (int j : this.getNeighbors(i)) {
         		if (pressedChord.contains(i) && pressedChord.contains(j)) {
+					g2d.setStroke(new BasicStroke((float) buttonSize /6));
         			g2d.setPaint(pressedColor);
         		} else {
+					g2d.setStroke(new BasicStroke((float) buttonSize /16));
         			g2d.setPaint(unpressedColor);
         		}
 				if (relChordY[i]- relChordY[j] > 2) {
@@ -115,7 +115,7 @@ public class DualTonnetz extends Graph implements MusicalNet{
     }
 
 
-    public void plotNodes(Graphics2D g2d) {
+    private void plotNodes(Graphics2D g2d) {
     	int buttonSize = Config.BUTTON_SIZE *3/4;
 
 		if (rotationCenter > -1) {
@@ -144,7 +144,7 @@ public class DualTonnetz extends Graph implements MusicalNet{
 			}
 		}
 
-    	g2d.setFont(new Font("Arial", Font.BOLD, buttonSize/5 * 3));
+		g2d.setFont(new Font("Arial", Font.PLAIN, buttonSize/2));
 		Color majColor = new Color(150, 60,60);
 		Color minColor = new Color(60, 60, 150);
     	for (int i = 0; i < chordRange; i++) {
@@ -173,13 +173,12 @@ public class DualTonnetz extends Graph implements MusicalNet{
 		for (int i : pressedChord) {
 			newKey.add(MusicUtil.dualnetMoveNote(i,chordRange,command));
 		}
-		rotationCenter = MusicUtil.dualnetMoveNote(rotationCenter,chordRange,command);
+		if (rotationCenter != -1) rotationCenter = MusicUtil.dualnetMoveNote(rotationCenter,chordRange,command);
 
     	pressedChord.clear();
 		pressedChord.addAll(newKey);
 		updatePressedKey();
     }
-
 
     public void rotateNotes(int direction) {
 		if (rotationCenter == -1) return;
@@ -196,11 +195,6 @@ public class DualTonnetz extends Graph implements MusicalNet{
 		pressedChord.addAll(newKey);
 		updatePressedKey();
     }
-
-	public Set<Integer> getPressedKey() {
-		return pressedKey;
-	}
-
 
 	public void clearNote() {
 		pressedChord.clear();
@@ -226,6 +220,15 @@ public class DualTonnetz extends Graph implements MusicalNet{
 			if (i < chordRange) pressedKey.add(i+4);
 			else pressedKey.add(i%chordRange+3);
 		}
+	}
+
+	@Override
+	public LinkedList<int[]> getSoundInformation() {
+		LinkedList<int[]> soundInfo = new LinkedList<>();
+		for (int i: pressedKey) {
+			soundInfo.add(new int[]{i+24, 100});
+		}
+		return soundInfo;
 	}
 
 	public String getChord() {

@@ -37,7 +37,7 @@ public class Main {
 	public void init() {
 		net = new Tonnetz();
 		try {
-			player = new NotePlayer(net.getPressedKey());
+			player = new NotePlayer(net);
 		} catch (MidiUnavailableException e) {
 			throw new RuntimeException(e);
 		}

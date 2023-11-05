@@ -2,7 +2,7 @@ package cdvis.component;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.LinkedList;
 
 public interface MusicalNet {
 
@@ -18,8 +18,6 @@ public interface MusicalNet {
 
     int getNetY();
 
-    Set<Integer> getPressedKey();
-
     void rotateNotes(int command);
 
     void clearNote();
@@ -29,4 +27,6 @@ public interface MusicalNet {
     boolean press(int x, int y);
 
     void setRotationCenter(int x, int y);
+
+    LinkedList<int[]> getSoundInformation();
 }

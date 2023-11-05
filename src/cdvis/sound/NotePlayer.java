@@ -1,17 +1,17 @@
 package cdvis.sound;
 
-import java.util.Set;
+import cdvis.component.MusicalNet;
 
 import javax.sound.midi.*;
 
 
 public class NotePlayer {
-	private Set<Integer> pressedKey;
+	private MusicalNet net;
 	private final MidiChannel channel;
 	private int instrument = 73;
 
-	public NotePlayer(Set<Integer> n) throws MidiUnavailableException {
-		pressedKey = n;
+	public NotePlayer(MusicalNet n) throws MidiUnavailableException {
+		net = n;
 		Synthesizer synth = MidiSystem.getSynthesizer();
 		synth.open();
 		channel = synth.getChannels()[0];
@@ -24,13 +24,13 @@ public class NotePlayer {
 	
 	public void setNotes() {
 		channel.allNotesOff();
-		for (int i : pressedKey) {
-			channel.noteOn(i+24, 100);
+		for (int[] note : net.getSoundInformation()) {
+			channel.noteOn(note[0], note[1]);
 		}
 	}
 
-	public void setPressedKey(Set<Integer> p) {
-		pressedKey = p;
+	public void changeMusicalNet(MusicalNet p) {
+		net = p;
 	}
 
 	public void setInstrument(int instr) {

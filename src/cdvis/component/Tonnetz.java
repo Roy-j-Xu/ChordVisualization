@@ -76,17 +76,19 @@ public class Tonnetz extends Graph implements MusicalNet{
     	plotNodes(g2d);
     }
     
-    public void plotEdges(Graphics2D g2d) {
+    private void plotEdges(Graphics2D g2d) {
     	int buttonSize = Config.BUTTON_SIZE;
-    	g2d.setStroke(new BasicStroke((float) buttonSize /8));
+
     	Color unpressedColor = new Color(200,200,200);
     	Color pressedColor = new Color(80,180,80);
 
     	for (int i = 0; i < noteRange; i++) {
     		for (int j : this.getNeighbors(i)) {
         		if (pressedKey.contains(i) && pressedKey.contains(j)) {
+					g2d.setStroke(new BasicStroke((float) buttonSize /6));
         			g2d.setPaint(pressedColor);
         		} else {
+					g2d.setStroke(new BasicStroke((float) buttonSize /16));
         			g2d.setPaint(unpressedColor);
         		}
 				if (relNoteY[i]-relNoteY[j] > 2) {
@@ -107,14 +109,14 @@ public class Tonnetz extends Graph implements MusicalNet{
     }
     
     
-    public void plotNodes(Graphics2D g2d) {
+    private void plotNodes(Graphics2D g2d) {
     	int buttonSize = Config.BUTTON_SIZE;
     	if (rotationCenter > -1) {
         	int centerSize = buttonSize * 5/4;
 			PlotUtil.drawBall(g2d, new Color(80,180,80), noteX[rotationCenter], noteY[rotationCenter], centerSize);
     	}
     	
-    	Color unpressedColor = new Color(100,200,100);
+    	Color unpressedColor = new Color(130,200,130);
     	Color pressedColor = new Color(0,80,0);
     	for (int i = 0; i < noteRange; i++) {
     		if (!pressedKey.contains(i)) {
@@ -125,7 +127,7 @@ public class Tonnetz extends Graph implements MusicalNet{
 			}
     	}
     	
-    	g2d.setFont(new Font("Arial", Font.BOLD, buttonSize/5 * 3));
+    	g2d.setFont(new Font("Arial", Font.PLAIN, buttonSize/2));
     	g2d.setColor(new Color(0, 130, 0));
     	for (int i = 0; i < noteRange; i++) {
     		PlotUtil.drawCenteredText(g2d, noteX[i], noteY[i], MusicUtil.pitchClass(i));
@@ -173,10 +175,6 @@ public class Tonnetz extends Graph implements MusicalNet{
     	pressedKey.clear();
 		pressedKey.addAll(newKey);
     }
-	
-	public Set<Integer> getPressedKey() {
-		return pressedKey;
-	}
 
 	
 	public void clearNote() {
@@ -192,6 +190,15 @@ public class Tonnetz extends Graph implements MusicalNet{
     			return;
     		}
     	}
+	}
+
+	@Override
+	public LinkedList<int[]> getSoundInformation() {
+		LinkedList<int[]> soundInfo = new LinkedList<>();
+		for (int i: pressedKey) {
+			soundInfo.add(new int[]{i+24, 100});
+		}
+		return soundInfo;
 	}
 
 	public String getChord() {
