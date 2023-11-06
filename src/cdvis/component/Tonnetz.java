@@ -69,7 +69,8 @@ public class Tonnetz extends Graph implements MusicalNet{
 			}
 		}
 	}
-	
+
+	@Override
     public void plot(Graphics2D g2d) {
     	layout();  	
     	plotEdges(g2d);
@@ -133,7 +134,8 @@ public class Tonnetz extends Graph implements MusicalNet{
     		PlotUtil.drawCenteredText(g2d, noteX[i], noteY[i], MusicUtil.pitchClass(i));
     	}
     }
-    
+
+	@Override
     public boolean press(int x, int y) {
     	int buttonSize = Config.BUTTON_SIZE;
     	for (int i = 0; i < noteRange; i++) {
@@ -145,7 +147,18 @@ public class Tonnetz extends Graph implements MusicalNet{
     	}
 		return false;
     }
-    
+
+	@Override
+	public void pressNote(int note) {
+		pressedKey.add(note-24);
+	}
+
+	@Override
+	public void releaseNote(int note) {
+		pressedKey.remove(note-24);
+	}
+
+	@Override
     public void moveNotes(int halfSteps) {
     	LinkedList<Integer> newKey = new LinkedList<>();
     	for (int i : pressedKey) {
@@ -159,7 +172,7 @@ public class Tonnetz extends Graph implements MusicalNet{
     	}
     }
     
-    
+    @Override
     public void rotateNotes(int direction) {
     	if (rotationCenter == -1) return;
     	
@@ -176,11 +189,12 @@ public class Tonnetz extends Graph implements MusicalNet{
 		pressedKey.addAll(newKey);
     }
 
-	
+	@Override
 	public void clearNote() {
 		pressedKey.clear();
 	}
-	
+
+	@Override
 	public void setRotationCenter(int x, int y) {
     	int buttonSize = Config.BUTTON_SIZE;
     	for (int i = 0; i < noteRange; i++) {
@@ -201,23 +215,28 @@ public class Tonnetz extends Graph implements MusicalNet{
 		return soundInfo;
 	}
 
+	@Override
 	public String getChord() {
 		return MusicUtil.recognizeChord(pressedKey);
 	}
 
+	@Override
 	public ArrayList<Integer> getPressedPitchClasses() {
 		return MusicUtil.getPitchClasses(pressedKey);
 	}
 
+	@Override
 	public void moveNet(int x, int y) {
 		netX = x;
 		netY = y;
 	}
 
+	@Override
 	public int getNetX() {
 		return netX;
 	}
-	
+
+	@Override
 	public int getNetY() {
 		return netY;
 	}

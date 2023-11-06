@@ -26,6 +26,10 @@ public interface MusicalNet {
 
     boolean press(int x, int y);
 
+    void pressNote(int note);
+
+    void releaseNote(int note);
+
     void setRotationCenter(int x, int y);
 
     LinkedList<int[]> getSoundInformation();

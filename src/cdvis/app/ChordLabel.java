@@ -1,6 +1,6 @@
-package cdvis.component;
+package cdvis.app;
 
-import cdvis.app.Config;
+import cdvis.component.MusicalNet;
 import cdvis.util.MusicUtil;
 import cdvis.util.PlotUtil;
 

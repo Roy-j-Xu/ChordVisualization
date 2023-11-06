@@ -11,12 +11,12 @@ import javax.swing.JPanel;
 public class ControlPanel extends JPanel{
 	private final JButton[] buttons;
 	private final String[][] buttonDescriptions = {
-					{"Move Down by P5", "Move Up by P5", "Move Down by M3", "Move Up by M3",
-							"Move Down by m3", "Move Up by m3", "Rotate counterclockwise", "Rotate clockwise"},
+					{"Move Down by m3", "Move Up by M3", "Move Down by P5", "Move Up by P5", "Move Down by M3"
+							, "Move Up by m3", "Rotate counterclockwise", "Rotate clockwise"},
 					{"To Upper-left" , "To Upper-right", "To the Left", "To the Right",
 							"To Lower-left", "To Lower-right", "Rotate counterclockwise", "Rotate clockwise"},
-					{"Move Down by P5", "Move Up by P5", "Move Down by M3", "Move Up by M3",
-							"Move Down by m3", "Move Up by m3", "", ""}
+					{"Move Down by m3", "Move Up by M3", "Move Down by P5", "Move Up by P5", "Move Down by M3"
+							, "Move Up by m3", "", ""}
 			};
 
 	public ControlPanel() {

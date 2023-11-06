@@ -1,7 +1,5 @@
 package cdvis.app;
 
-import cdvis.component.ChordLabel;
-
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
@@ -29,7 +27,7 @@ public class AppFrame extends JFrame {
 		try {
 			setLocationRelativeTo(null);
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 
 	}

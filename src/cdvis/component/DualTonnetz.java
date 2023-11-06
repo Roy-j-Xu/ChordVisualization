@@ -78,6 +78,7 @@ public class DualTonnetz extends Graph implements MusicalNet{
 		}
 	}
 
+	@Override
     public void plot(Graphics2D g2d) {
     	layout();
     	plotEdges(g2d);
@@ -155,6 +156,7 @@ public class DualTonnetz extends Graph implements MusicalNet{
     	}
     }
 
+	@Override
     public boolean press(int x, int y) {
     	int buttonSize = Config.BUTTON_SIZE*3/4;
     	for (int i = 0; i < chordRange*2; i++) {
@@ -168,6 +170,15 @@ public class DualTonnetz extends Graph implements MusicalNet{
 		return false;
     }
 
+	@Override
+	public void pressNote(int note) {
+	}
+
+	@Override
+	public void releaseNote(int note) {
+	}
+
+	@Override
     public void moveNotes(int command) {
     	LinkedList<Integer> newKey = new LinkedList<>();
 		for (int i : pressedChord) {
@@ -180,6 +191,7 @@ public class DualTonnetz extends Graph implements MusicalNet{
 		updatePressedKey();
     }
 
+	@Override
     public void rotateNotes(int direction) {
 		if (rotationCenter == -1) return;
 
@@ -196,11 +208,13 @@ public class DualTonnetz extends Graph implements MusicalNet{
 		updatePressedKey();
     }
 
+	@Override
 	public void clearNote() {
 		pressedChord.clear();
 		pressedKey.clear();
 	}
 
+	@Override
 	public void setRotationCenter(int x, int y) {
 		int buttonSize = Config.BUTTON_SIZE*3/4;
 		for (int i = 0; i < chordRange*2; i++) {
@@ -231,23 +245,28 @@ public class DualTonnetz extends Graph implements MusicalNet{
 		return soundInfo;
 	}
 
+	@Override
 	public String getChord() {
 		return MusicUtil.recognizeChord(pressedKey);
 	}
 
+	@Override
 	public ArrayList<Integer> getPressedPitchClasses() {
 		return MusicUtil.getPitchClasses(pressedKey);
 	}
 
+	@Override
 	public void moveNet(int x, int y) {
 		netX = x;
 		netY = y;
 	}
 
+	@Override
 	public int getNetX() {
 		return netX;
 	}
-	
+
+	@Override
 	public int getNetY() {
 		return netY;
 	}

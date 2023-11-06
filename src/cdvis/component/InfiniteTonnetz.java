@@ -53,7 +53,8 @@ public class InfiniteTonnetz implements MusicalNet{
 			noteY[note] = netY + relNoteY[note] * gap * 433 / 250;
 		}
 	}
-	
+
+	@Override
     public void plot(Graphics2D g2d) {
     	layout();  	
     	plotEdges(g2d);
@@ -114,7 +115,7 @@ public class InfiniteTonnetz implements MusicalNet{
 	private void plotNoteClass(Graphics2D g2d, int note) {
 		int buttonSize = Config.BUTTON_SIZE;
 		Color color;
-		if (!pressedKey.contains(note)) color = new Color(130,200,130);
+		if (!pressedKey.contains(note)) color = new Color(180,220,180);
 		else color = new Color(0,80,0);
 		g2d.setFont(new Font("Arial", Font.PLAIN, buttonSize/2));
 
@@ -128,7 +129,7 @@ public class InfiniteTonnetz implements MusicalNet{
 				else {
 					PlotUtil.drawBall(g2d, color, x, y, buttonSize);
 				}
-				g2d.setColor(new Color(0, 130, 0));
+				g2d.setColor(new Color(80, 140, 80));
 				PlotUtil.drawCenteredText(g2d, x, y, MusicUtil.pitchClass(note));
 			}
 		}
@@ -158,7 +159,18 @@ public class InfiniteTonnetz implements MusicalNet{
     	}
 		return false;
     }
-    
+
+	@Override
+	public void pressNote(int note) {
+		pressedKey.add(note%12);
+	}
+
+	@Override
+	public void releaseNote(int note) {
+		pressedKey.remove(note%12);
+	}
+
+	@Override
     public void moveNotes(int halfSteps) {
     	LinkedList<Integer> newKey = new LinkedList<>();
     	for (int i : pressedKey) {
@@ -167,7 +179,8 @@ public class InfiniteTonnetz implements MusicalNet{
     	pressedKey.clear();
 		pressedKey.addAll(newKey);
     }
-	
+
+	@Override
 	public void clearNote() {
 		pressedKey.clear();
 	}
@@ -185,14 +198,17 @@ public class InfiniteTonnetz implements MusicalNet{
 		return soundInfo;
 	}
 
+	@Override
 	public String getChord() {
 		return MusicUtil.recognizeChord(pressedKey);
 	}
 
+	@Override
 	public ArrayList<Integer> getPressedPitchClasses() {
 		return MusicUtil.getPitchClasses(pressedKey);
 	}
 
+	@Override
 	public void moveNet(int x, int y) {
 		netX = x;
 		netY = y;
@@ -244,19 +260,21 @@ public class InfiniteTonnetz implements MusicalNet{
 		}
 	}
 
+	@Override
 	public int getNetX() {
 		return netX;
 	}
-	
+
+	@Override
 	public int getNetY() {
 		return netY;
 	}
 
-
-
+	@Override
 	public void rotateNotes(int direction) {
 	}
 
+	@Override
 	public void setRotationCenter(int x, int y) {
 	}
 }

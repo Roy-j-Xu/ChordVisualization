@@ -7,19 +7,24 @@ import javax.sound.midi.*;
 
 public class NotePlayer {
 	private MusicalNet net;
+	private final Synthesizer synth;
 	private final MidiChannel channel;
 	private int instrument = 73;
 
 	public NotePlayer(MusicalNet n) throws MidiUnavailableException {
 		net = n;
-		Synthesizer synth = MidiSystem.getSynthesizer();
+		synth = MidiSystem.getSynthesizer();
 		synth.open();
 		channel = synth.getChannels()[0];
 		channel.programChange(instrument);
 	}
 
+	public void start() throws MidiUnavailableException {
+		synth.open();
+	}
+
 	public void stop() {
-		channel.allNotesOff();
+		synth.close();
 	}
 	
 	public void setNotes() {

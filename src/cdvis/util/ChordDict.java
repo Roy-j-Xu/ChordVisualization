@@ -24,6 +24,8 @@ public class ChordDict {
             Map.entry("227" , "Δ9"),
             Map.entry("223" , "Δ9"),
 
+            Map.entry("443", "Δ+"),
+
             Map.entry("433" , "7"),
             Map.entry("523" , "7sus4"),
             Map.entry("253" , "9"),

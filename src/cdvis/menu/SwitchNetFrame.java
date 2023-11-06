@@ -1,11 +1,13 @@
 package cdvis.menu;
 
 import cdvis.app.AppPanel;
+import cdvis.app.ChordLabel;
 import cdvis.app.ControlPanel;
 import cdvis.component.*;
 import cdvis.listener.ControlListener;
 import cdvis.listener.TonnetzController;
 import cdvis.listener.TonnetzMover;
+import cdvis.sound.MidiPlayer;
 import cdvis.sound.NotePlayer;
 
 
@@ -19,18 +21,21 @@ public class SwitchNetFrame extends JFrame {
     private final TonnetzMover tMover;
     private final TonnetzController tController;
     private final NotePlayer player;
+    private final MidiPlayer midiPlayer;
     private final ChordLabel cLabel;
 
     JComboBox<String> comboBox;
 
     public SwitchNetFrame(AppPanel a, ControlPanel c, ControlListener cl,
-                          TonnetzMover t, TonnetzController tc, NotePlayer p, ChordLabel clb) {
+                          TonnetzMover t, TonnetzController tc, NotePlayer p, MidiPlayer m,
+                          ChordLabel clb) {
         aPanel = a;
         cPanel = c;
         cListener = cl;
         tMover = t;
         tController = tc;
         player = p;
+        midiPlayer = m;
         cLabel = clb;
 
         setTitle("Change Visualization");
@@ -74,6 +79,7 @@ public class SwitchNetFrame extends JFrame {
             tMover.changeMusicalNet(net);
             tController.changeMusicalNet(net);
             player.changeMusicalNet(net);
+            midiPlayer.changeMusicalNet(net);
             cLabel.changeMusicalNet(net);
 
             aPanel.repaint();

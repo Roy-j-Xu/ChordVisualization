@@ -4,7 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import cdvis.app.AppPanel;
-import cdvis.component.ChordLabel;
+import cdvis.app.ChordLabel;
 import cdvis.component.MusicalNet;
 import cdvis.sound.NotePlayer;
 
