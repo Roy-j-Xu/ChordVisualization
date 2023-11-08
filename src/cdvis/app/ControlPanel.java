@@ -20,7 +20,7 @@ public class ControlPanel extends JPanel{
 			};
 
 	public ControlPanel() {
-		this.setBounds(0, Config.SCREEN_HEIGHT*2/5, Config.SCREEN_WIDTH/4, Config.SCREEN_HEIGHT/2);
+		this.setBounds(0, Config.SCREEN_HEIGHT/2, Config.SCREEN_WIDTH/4, Config.SCREEN_HEIGHT*2/5);
 		this.setBackground(new Color(225,225,225));
 		
 		this.setLayout(new GridLayout(5,2));

@@ -1,6 +1,9 @@
 # Chord Visualization
 
-As of now, this is a GUI that allows user to create, play, and apply operations to chords on a Tonnetz. 
+This is a application intended to help chord progression design. It allows users to:
+
+- Create and operate chords on its graphical interface. 
+- Play MIDI files. The application also visualizes music on its GUI.
 
 
 
@@ -30,4 +33,6 @@ Left click on notes to press. Use the control panel to apply operations to the p
 
 Use settings menu to switch between different Tonnetze or change instrument.
 
-Use file menu to play MIDI files. An example "Gymnopedie_1_Saya_Tomoko-s-gymno1.mid" can be found in the resources folder, which I retrieved from https://www-personal.umich.edu/~bbowman/midi/satie/index.html.
+Use file menu to play MIDI files. An example "Gymnopedie_1_Saya_Tomoko-s-gymno1.mid" can be found in the examples folder, which I retrieved from https://www-personal.umich.edu/~bbowman/midi/satie/index.html.
+
+![MidiPlayer](examples/MidiPlayer.png)*MIDI player*

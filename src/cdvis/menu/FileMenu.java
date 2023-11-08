@@ -1,5 +1,7 @@
 package cdvis.menu;
 
+import cdvis.app.AppFrame;
+import cdvis.app.PlayerPanel;
 import cdvis.sound.MidiPlayer;
 import cdvis.sound.NotePlayer;
 
@@ -9,12 +11,16 @@ import java.io.File;
 public class FileMenu extends JMenu {
     private final NotePlayer player;
     private final MidiPlayer midiPlayer;
+    private final PlayerPanel pPanel;
+    private final AppFrame aFrame;
 
-    public FileMenu(NotePlayer p, MidiPlayer m) {
+    public FileMenu(NotePlayer p, MidiPlayer m, PlayerPanel pp, AppFrame a) {
         super("File");
 
         player = p;
         midiPlayer = m;
+        pPanel = pp;
+        aFrame = a;
 
         JMenuItem openMenuItem = new JMenuItem("Open");
         openMenuItem.addActionListener(e -> {
@@ -27,15 +33,15 @@ public class FileMenu extends JMenu {
                 try {
                     midiPlayer.chooseFile(selectedFile.getAbsolutePath());
                     player.stop();
+                    aFrame.setTitle("ChordVisualization - " + midiPlayer.getFileName());
                 } catch (Exception ex) {
-                    throw new RuntimeException(ex);
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
+                pPanel.repaint();
             }
             chooseFileFrame.dispose();
         });
         add(openMenuItem);
-
     }
-
 
 }

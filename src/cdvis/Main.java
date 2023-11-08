@@ -1,20 +1,17 @@
 package cdvis;
 
-import javax.swing.JButton;
+import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import cdvis.app.AppFrame;
-import cdvis.app.AppPanel;
-import cdvis.app.ControlPanel;
-import cdvis.app.ChordLabel;
+import cdvis.app.*;
 import cdvis.component.MusicalNet;
 import cdvis.component.Tonnetz;
 import cdvis.listener.ControlListener;
+import cdvis.listener.PlayerPanelListener;
 import cdvis.listener.TonnetzController;
 import cdvis.listener.TonnetzMover;
 import cdvis.menu.FileMenu;
-import cdvis.menu.MenuBar;
 import cdvis.menu.SettingsMenu;
 import cdvis.sound.MidiPlayer;
 import cdvis.sound.NotePlayer;
@@ -23,6 +20,7 @@ public class Main {
 	private AppPanel aPanel;
 	private ControlPanel cPanel;
 	private ChordLabel cLabel;
+	private PlayerPanel pPanel;
 	private MusicalNet net;
 	private AppFrame aFrame;
 
@@ -43,6 +41,7 @@ public class Main {
 		cPanel = new ControlPanel();
 		cLabel = new ChordLabel(net);
 
+
 		try {
 			player = new NotePlayer(net);
 			midiPlayer = new MidiPlayer(net, aPanel, cLabel, player);
@@ -51,17 +50,19 @@ public class Main {
 		}
 
 		aFrame = new AppFrame(aPanel, cPanel, cLabel);
+		pPanel = new PlayerPanel(player, midiPlayer, aFrame);
+		aFrame.add(pPanel);
 		addListeners();
 		addMenu();
 
 	}
 
 	public void addMenu() {
-		FileMenu fileMenu = new FileMenu(player,midiPlayer);
+		FileMenu fileMenu = new FileMenu(player,midiPlayer,pPanel,aFrame);
 		SettingsMenu settingsMenu = new SettingsMenu(aPanel, cPanel, CListener, TMover,
 				TController, player, midiPlayer, cLabel);
 
-		MenuBar menuBar = new MenuBar();
+		JMenuBar menuBar = new JMenuBar();
 		menuBar.add(fileMenu);
 		menuBar.add(settingsMenu);
 
@@ -81,6 +82,9 @@ public class Main {
 		for (JButton b : cPanel.getButtons()) {
 			b.addActionListener(CListener);
 		}
+
+		PlayerPanelListener playerPanelListener = new PlayerPanelListener(pPanel);
+		pPanel.addMouseListener(playerPanelListener);
 
 		aFrame.addWindowListener(new WindowAdapter() {
 			@Override
