@@ -1,12 +1,12 @@
 package cdvis.listener;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 import cdvis.app.AppPanel;
 import cdvis.app.ChordLabel;
 import cdvis.component.MusicalNet;
 import cdvis.sound.NotePlayer;
+
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 
 public class TonnetzController implements MouseListener{

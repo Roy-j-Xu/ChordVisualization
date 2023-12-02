@@ -1,5 +1,7 @@
 package cdvis.component;
 
+import cdvis.app.Config;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -9,7 +11,6 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
-import cdvis.app.Config;
 import cdvis.util.MusicUtil;
 import cdvis.util.PlotUtil;
 

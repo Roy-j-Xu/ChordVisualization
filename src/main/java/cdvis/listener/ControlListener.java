@@ -1,11 +1,12 @@
 package cdvis.listener;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import cdvis.app.AppPanel;
 import cdvis.app.ChordLabel;
 import cdvis.component.MusicalNet;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import cdvis.sound.NotePlayer;
 
 public class ControlListener implements ActionListener {

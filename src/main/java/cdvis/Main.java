@@ -1,9 +1,5 @@
 package cdvis;
 
-import javax.swing.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
 import cdvis.app.*;
 import cdvis.component.MusicalNet;
 import cdvis.component.Tonnetz;
@@ -15,6 +11,10 @@ import cdvis.menu.FileMenu;
 import cdvis.menu.SettingsMenu;
 import cdvis.sound.MidiPlayer;
 import cdvis.sound.NotePlayer;
+
+import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Main {
 	private AppPanel aPanel;

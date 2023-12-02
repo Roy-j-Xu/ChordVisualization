@@ -18,7 +18,8 @@ public class InstrumentDict {
 
         MidiInstrument = new HashMap<>();
 
-        String csvFilePath = "resources/GM_Instrument_list.csv";
+        String csvFilePath = "src/main/resources/GM_Instrument_list.csv";
+        
         try (Reader reader = new FileReader(csvFilePath);
              CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withHeader())) {
 

@@ -1,8 +1,8 @@
 package cdvis.menu;
 
 import cdvis.app.AppPanel;
-import cdvis.app.ControlPanel;
 import cdvis.app.ChordLabel;
+import cdvis.app.ControlPanel;
 import cdvis.listener.ControlListener;
 import cdvis.listener.TonnetzController;
 import cdvis.listener.TonnetzMover;
